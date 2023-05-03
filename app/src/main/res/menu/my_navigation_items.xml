@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<!--    <item-->
+<!--        android:id="@+id/page_1"-->
+<!--        android:enabled="true"-->
+<!--        android:icon="@drawable/ic_favorite"-->
+<!--        android:title="@string/favorites"/>-->
+<!--    <item-->
+<!--        android:id="@+id/page_2"-->
+<!--        android:enabled="true"-->
+<!--        android:icon="@drawable/ic_music"-->
+<!--        android:title="@string/music"/>-->
+<!--    <item-->
+<!--        android:id="@+id/page_3"-->
+<!--        android:enabled="true"-->
+<!--        android:icon="@drawable/ic_places"-->
+<!--        android:title="@string/places"/>-->
+<!--    <item-->
+<!--        android:id="@+id/page_4"-->
+<!--        android:enabled="true"-->
+<!--        android:icon="@drawable/ic_news"-->
+<!--        android:title="@string/news"/>-->
+
+    <item
+        android:id="@+id/search_page"
+        android:enabled="true"
+        android:title="SEARCH"/>
+    <item
+        android:id="@+id/saved_page"
+        android:enabled="true"
+        android:title="SAVED ARRIVAL"/>
+    <item
+        android:id="@+id/profile_page"
+        android:enabled="true"
+        android:title="PROFILE"/>
+
+</menu>

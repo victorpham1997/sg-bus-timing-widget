@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SG Bus Timing Widget</string>
+    <!-- Strings used for fragments for navigation -->
+
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="app_widget_description">This is an app widget description</string>
+    <!-- TODO: Remove or change this placeholder text -->
+</resources>

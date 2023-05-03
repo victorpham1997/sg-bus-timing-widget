@@ -1,0 +1,90 @@
+package com.example.sgbustimingwidget.adapter;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+
+import com.example.sgbustimingwidget.R;
+import com.example.sgbustimingwidget.database.DBHandler;
+
+import java.util.List;
+
+
+public class BusInfoAdapter extends ArrayAdapter<BusInfoItem> {
+
+    private int resourceLayout;
+    private Context context;
+    private DBHandler dbHandler;
+
+    public BusInfoAdapter(Context context, int resource, List<BusInfoItem> busInfoItems, DBHandler dbHandler) {
+        super(context, resource, busInfoItems);
+        this.resourceLayout = resource;
+        this.context = context;
+        this.dbHandler =dbHandler;
+    }
+
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        BusInfoItem busInfoItem = getItem(position);
+        View currentItemView = convertView;
+
+        String busNo = busInfoItem.getBusNo();
+        String busStopCode = busInfoItem.getBusStopCode();
+        String[] arrivalTimeArr = busInfoItem.getArrivalTimeArr();
+
+        Boolean saveStatus = this.dbHandler.checkSavedBusArrival(busStopCode, busNo);
+
+
+        if (currentItemView == null) {
+            currentItemView = LayoutInflater.from(getContext()).inflate(R.layout.bus_info_item, parent, false);
+        }
+
+
+        if (busInfoItem != null) {
+            TextView textViewBusNo =  currentItemView.findViewById(R.id.textViewBusNo);
+            TextView textViewArrivalTime = currentItemView.findViewById(R.id.textViewArrivalTime);
+            ToggleButton saveButton = currentItemView.findViewById(R.id.toggleButtonSave);
+
+//            TextView busStopName = (TextView) currentItemView.findViewById(R.id.BusStopName);
+//            TextView busStopCode = (TextView) currentItemView.findViewById(R.id.BusStopCode);
+
+
+            if (textViewBusNo != null) {
+                textViewBusNo.setText(busNo);
+            }
+            if (textViewArrivalTime != null) {
+                String s = String.format("%1$s, %2$s, %3$s min(s)", arrivalTimeArr[0], arrivalTimeArr[1], arrivalTimeArr[2]);
+                textViewArrivalTime.setText(s);
+            }
+
+            saveButton.setChecked(saveStatus);
+            saveButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if(isChecked){
+                        //toggle is enabled
+                        System.out.println("CHECKED");
+                        dbHandler.addNewSavedBusArrival(busStopCode, busNo);
+                    }else{
+                        //toggle is disabled
+                        System.out.println("UNCHECKED");
+                        dbHandler.removeSavedBusArrival(busStopCode, busNo);
+                    }
+                }
+            });
+//            if (busStopName != null) {
+//                busStopName.setText(busInfoItem.getBusStopName());
+//            }
+//            if (busStopCode != null) {
+//                busStopCode.setText(busInfoItem.getBusStopCode());
+//            }
+        }
+        return currentItemView;
+    }
+}
