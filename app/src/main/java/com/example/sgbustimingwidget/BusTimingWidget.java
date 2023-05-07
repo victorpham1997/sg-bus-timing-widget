@@ -1,22 +1,39 @@
 package com.example.sgbustimingwidget;
 
+import android.annotation.SuppressLint;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.widget.LinearLayout;
 import android.widget.RemoteViews;
 
-/**
- * Implementation of App Widget functionality.
- */
+import androidx.viewpager.widget.ViewPager;
+
+import com.example.sgbustimingwidget.adapter.WidgetPagerAdapter;
+import com.example.sgbustimingwidget.database.DBHandler;
+import com.example.sgbustimingwidget.network.NetworkEngine;
+
+
 public class BusTimingWidget extends AppWidgetProvider {
 //    https://www.digitalocean.com/community/tutorials/android-viewpager-example-tutorial
+    private WidgetPagerAdapter widgetPagerAdapter;
+    private DBHandler dbHandler;
+    private NetworkEngine networkEngine;
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
+    private ViewPager viewPager;
+
+
+    public void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
+//        CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.bus_timing_widget);
+
+
+
+
+//        widgetPagerAdapter = new WidgetPagerAdapter(context, dbHandler, networkEngine );
 //        views.setTextViewText(R.id.appwidget_text, widgetText);
 
         // Instruct the widget manager to update the widget
@@ -34,6 +51,10 @@ public class BusTimingWidget extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context) {
         // Enter relevant functionality for when the first widget is created
+        dbHandler = new DBHandler(context);
+        networkEngine = new NetworkEngine(context, dbHandler);
+
+
     }
 
     @Override

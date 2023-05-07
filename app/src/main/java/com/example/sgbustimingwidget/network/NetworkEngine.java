@@ -3,6 +3,7 @@ package com.example.sgbustimingwidget.network;
 import android.content.Context;
 import android.os.Handler;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sgbustimingwidget.adapter.BusInfoItem;
@@ -67,6 +68,38 @@ public class NetworkEngine {
                         try {
                             ProcessBusArrivalEndpoint(respJo, busInfoItems);
                             infoAdapter.notifyDataSetChanged();
+                        } catch (JSONException | ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }});
+            }
+        };
+        UrlRequest.Builder requestBuilder = engine. newUrlRequestBuilder(
+                url, apiCallback, cronetCallbackExecutorService);
+        requestBuilder.setHttpMethod("GET");
+        requestBuilder.addHeader("accept", "application/json");
+        requestBuilder.addHeader("AccountKey", "vBdsrPSuR5692Y//pACMfQ==");
+        UrlRequest request = requestBuilder.build();
+        request.start();
+    }
+
+    public void GetWidgetBusArrival(String busStopCode, String serviceNo, TextView textBusArrival ){
+        String url = String.format("http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=%1s&ServiceNo=%2s", busStopCode, serviceNo);
+        CronetEngine.Builder engineBuilder = new CronetEngine.Builder(context);
+        CronetEngine engine = engineBuilder.build();
+//        Executor executor = Executors.newSingleThreadExecutor();
+        ApiCallback apiCallback = new ApiCallback() {
+            @Override
+            void postSucceeded(UrlRequest request, UrlResponseInfo info, JSONObject respJo) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONArray busInfoJArr = (JSONArray) respJo.get("Services");
+                            String[] arrivalTimeArr = Utils.ExtractArrivalTime(busInfoJArr.getJSONObject(0));
+                            String s = String.format("%1$s, %2$s, %3$s min(s)", arrivalTimeArr[0], arrivalTimeArr[1], arrivalTimeArr[2]);
+                            textBusArrival.setText(s);
+
                         } catch (JSONException | ParseException e) {
                             e.printStackTrace();
                         }
