@@ -4,7 +4,7 @@
         android:width="0dp"
         android:color="@color/black" />
 
-    <solid android:color="#ff6200" />
+    <solid android:color="@color/light_blue_900" />
 
     <padding
         android:left="1dp"
@@ -13,8 +13,8 @@
         android:top="1dp" />
 
     <corners
-        android:bottomLeftRadius="15dp"
-        android:bottomRightRadius="15dp"/>
+        android:topLeftRadius="@android:dimen/system_app_widget_inner_radius"
+        android:topRightRadius="@android:dimen/system_app_widget_inner_radius"/>
 
 
 </shape>

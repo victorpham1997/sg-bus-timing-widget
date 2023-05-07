@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (dbHandler.CountDbRows() == 0){
+            System.out.println("Calling get busmetadata");
             networkEngine.GetBusStopMetadata(this, dbHandler);
         }
 

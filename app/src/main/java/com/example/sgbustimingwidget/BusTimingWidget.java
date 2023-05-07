@@ -19,7 +19,6 @@ public class BusTimingWidget extends AppWidgetProvider {
     private WidgetPagerAdapter widgetPagerAdapter;
     private DBHandler dbHandler;
     private NetworkEngine networkEngine;
-
     private ViewPager viewPager;
 
 
@@ -29,8 +28,7 @@ public class BusTimingWidget extends AppWidgetProvider {
 //        CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.bus_timing_widget);
-
-
+//        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.simple_widget);
 
 
 //        widgetPagerAdapter = new WidgetPagerAdapter(context, dbHandler, networkEngine );
@@ -53,7 +51,6 @@ public class BusTimingWidget extends AppWidgetProvider {
         // Enter relevant functionality for when the first widget is created
         dbHandler = new DBHandler(context);
         networkEngine = new NetworkEngine(context, dbHandler);
-
 
     }
 

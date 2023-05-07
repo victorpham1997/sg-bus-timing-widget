@@ -13,8 +13,8 @@
         android:top="1dp" />
 
     <corners
-        android:bottomLeftRadius="15dp"
-        android:bottomRightRadius="15dp"/>
+        android:bottomLeftRadius="@android:dimen/system_app_widget_inner_radius"
+        android:bottomRightRadius="@android:dimen/system_app_widget_inner_radius"/>
 
 
 </shape>

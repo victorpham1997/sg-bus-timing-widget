@@ -102,7 +102,7 @@ public class SearchFragment extends Fragment {
 
         buttonReloadDb.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-//                networkEngine.GetBusStopMetadata(getActivity(), dbHandler);
+                networkEngine.GetBusStopMetadata(getActivity(), dbHandler);
                 System.out.println("lalala: " + busInfoItems);
 
             }
