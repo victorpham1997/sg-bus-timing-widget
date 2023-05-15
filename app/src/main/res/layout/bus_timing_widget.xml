@@ -1,53 +1,70 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutWidget"
     android:layout_gravity="center"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@drawable/app_widget_background">
+    android:theme="@style/Theme.Material3.DynamicColors.DayNight"
+    android:background="@drawable/widget_background"
+    >
 
     <LinearLayout
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="12dp"
         android:layout_weight="1"
         android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonScrollLeft"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginHorizontal="3dp"
+            android:background="@drawable/circle_filled"/>
+
 
         <LinearLayout
             android:id="@+id/layoutBusInfoLeft"
             android:layout_gravity="center"
-            android:layout_marginHorizontal="20dp"
+            android:layout_marginHorizontal="10dp"
             android:gravity="center"
             android:layout_weight="1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
                 android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:paddingHorizontal="12dp"
                 android:background="@drawable/rounded_corner_top">
 
                 <TextView
                     android:id="@+id/textBusStopNameLeft"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="12dp"
+                    android:textStyle="bold"
                     android:text="Opps Changi Airspace"
-                    android:textColor="@color/white">
-                </TextView>
+                    android:textColor="@color/material_dynamic_secondary20"></TextView>
 
                 <TextView
                     android:id="@+id/textBusNumLeft"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="12"
-                    android:layout_weight="0.7"
-                    android:textColor="@color/white">
+                    android:layout_height="wrap_content"
+                    android:text="999"
+                    android:gravity="end"
+                    android:textSize="20dp"
+                    android:layout_weight="1.5"
+                    android:textColor="@color/material_dynamic_secondary20">
                 </TextView>
 
             </LinearLayout>
@@ -55,7 +72,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:paddingHorizontal="12dp"
                 android:orientation="horizontal"
                 android:background="@drawable/rounded_corner_bottom">
 
@@ -65,8 +82,9 @@
                     android:layout_height="match_parent"
                     android:text="3,6,10 mins"
                     android:layout_weight="1"
+                    android:textStyle="bold"
                     android:gravity="end"
-                    android:textColor="@color/white">
+                    android:textColor="@color/material_dynamic_primary95">
                 </TextView>
 
             </LinearLayout>
@@ -78,35 +96,40 @@
             android:id="@+id/layoutBusInfoRight"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_marginHorizontal="20dp"
-            android:layout_width="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:paddingHorizontal="12dp"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:background="@drawable/rounded_corner_top">
 
                 <TextView
                     android:id="@+id/textBusStopNameRight"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3"
-                    android:text="Opps Changi Airspace"
-                    android:textColor="@color/white">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="12dp"
+                    android:text="Opps Changi Airspace hello "
+                    android:textColor="@color/material_dynamic_secondary20">
                 </TextView>
 
                 <TextView
                     android:id="@+id/textBusNumRight"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="12"
-                    android:layout_weight="0.7"
-                    android:textColor="@color/white">
+                    android:layout_height="wrap_content"
+                    android:text="155"
+                    android:gravity="end"
+                    android:textSize="20dp"
+                    android:layout_weight="2.2"
+                    android:textColor="@color/material_dynamic_secondary20">
                 </TextView>
 
             </LinearLayout>
@@ -114,7 +137,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:paddingHorizontal="12dp"
                 android:orientation="horizontal"
                 android:background="@drawable/rounded_corner_bottom">
 
@@ -124,12 +147,21 @@
                     android:layout_height="match_parent"
                     android:text="3,6,10 mins"
                     android:gravity="end"
-                    android:textColor="@color/white">
+                    android:textColor="@color/material_dynamic_primary95">
                 </TextView>
 
             </LinearLayout>
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonScrollRight"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginHorizontal="3dp"
+            android:background="@drawable/circle_filled"/>
+
+
 
 
     </LinearLayout>

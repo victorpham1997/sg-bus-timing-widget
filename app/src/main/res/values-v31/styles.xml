@@ -11,4 +11,9 @@
         <item name="android:background">@drawable/app_widget_inner_view_background</item>
         <item name="android:clipToOutline">true</item>
     </style>
+
+    <style
+        name="AppTheme"
+        parent="ThemeOverlay.Material3.DynamicColors.DayNight">
+    </style>
 </resources>

@@ -1,5 +1,8 @@
 package com.example.sgbustimingwidget;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import com.example.sgbustimingwidget.database.DBHandler;
@@ -21,6 +24,14 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
+    private SharedPreferences sharedPreferences;
+
+    public static SQLiteDatabase db;
+
+    public static SQLiteDatabase getDb() {
+        return db;
+    }
+
 
     private DBHandler dbHandler;
     private NetworkEngine networkEngine;
@@ -31,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
 
         // Define bus stop metatdata DB
         dbHandler = new DBHandler(MainActivity.this);
+        db = dbHandler.getWritableDatabase();
+        sharedPreferences = getSharedPreferences("WIDGET_SP", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("WIDGET_INDEX", 45);
+        editor.apply();
 
         // Define layout
         setContentView(R.layout.activity_main);
@@ -78,9 +94,16 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
-
-
     }
+//    public void WidgetIntentInit(){
+//
+//        Map<String, String> arrival_l = arrivalTable[0];
+//        Map<String, String> arrival_r = arrivalTable[1];
+//        Map<String, String> busStopMetadata_l = dbHandler.FindBusStop(arrival_l.get("busno"))[0];
+//        Map<String, String> busStopMetadata_r = dbHandler.FindBusStop(arrival_r.get("busno"))[0];
+//
+//
+//    }
 
 //        buttonSearch.setOnClickListener(new View.OnClickListener() {
 //            public void onClick(View v) {

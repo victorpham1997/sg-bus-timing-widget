@@ -36,6 +36,7 @@ public class DBHandler extends SQLiteOpenHelper {
     // below variable is for our course tracks column.
 
     // creating a constructor for our database handler.
+
     public DBHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
@@ -142,6 +143,37 @@ public class DBHandler extends SQLiteOpenHelper {
         cursor.moveToFirst();
 //        db.close();
         return out_arr;
+    }
+
+    public static Map<String, String>[] Query(String query, SQLiteDatabase db ){
+        Cursor cursor = db.rawQuery(query,null);
+        Map<String, String>[] out_arr = new Map[cursor.getCount()];
+        int row =0;
+        while (cursor.moveToNext()) {
+            Map<String, String> out = new HashMap<String, String>();
+            out_arr[row] = out;
+            for(int i = 0; i < cursor.getColumnCount(); i++){
+                out.put(cursor.getColumnName(i), cursor.getString(i));
+            }
+            row++;
+        }
+        cursor.moveToFirst();
+//        db.close();
+        return out_arr;
+    }
+
+    public static Map<String, String>[] GetTable(String table_name,  SQLiteDatabase db){
+        String query = "SELECT * FROM " + table_name;
+        return Query(query, db);
+    }
+
+    public static Map<String, String>[] FindBusStop(String input, SQLiteDatabase db){
+        input = input.trim();
+        if (input.matches("-?\\d+(\\.\\d+)?")){
+            return Query("SELECT * FROM busstopmetadata WHERE code like '%" + input + "%'", db);
+        }else{
+            return Query("SELECT * FROM busstopmetadata WHERE lower(description) like lower('%" + input + "%')", db);
+        }
     }
 
     public Map<String, String>[] GetTable(String table_name){
