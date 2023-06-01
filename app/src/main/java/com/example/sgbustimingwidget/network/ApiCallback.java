@@ -27,29 +27,18 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Map;
 
-abstract class ApiCallback extends UrlRequest.Callback{
+public abstract class ApiCallback extends UrlRequest.Callback{
 
     private static final int BYTE_BUFFER_CAPACITY_BYTES = 64 * 1024;
     private final ByteArrayOutputStream bytesReceived = new ByteArrayOutputStream();
     private final WritableByteChannel receiveChannel = Channels.newChannel(bytesReceived);
 
     private static final String TAG = "MyApiRequestCallback";
-    private Context context;
-    private Handler handler;
-    private NetworkEngine networkEngine;
-    private DBHandler dbHandler;
-    private ArrayList<BusInfoItem> busInfoItems;
-    private ArrayAdapter adapter;
-    private ListView ls;
     private final long startTimeNanos;
 
 
     public ApiCallback(){
-//        this.context = context;
-//        this.handler  = new Handler(context.getMainLooper());
-//        this.dbHandler = dbHandler;
         startTimeNanos = System.nanoTime();
-//        sharedPref = context.getSharedPreferences("SharedPref", Context.MODE_PRIVATE);
     }
 
 
@@ -62,7 +51,7 @@ abstract class ApiCallback extends UrlRequest.Callback{
     @Override
     public void onResponseStarted(UrlRequest request, UrlResponseInfo info) throws Exception {
         Log.i(TAG, "onResponseStarted method called.");
-//        Log.i(TAG, info.getUrl());
+        Log.i(TAG, info.getUrl());
 //        bytesReceived.reset();
         request.read(ByteBuffer.allocateDirect(BYTE_BUFFER_CAPACITY_BYTES));
     }
@@ -89,7 +78,7 @@ abstract class ApiCallback extends UrlRequest.Callback{
 
         byte[] bodyBytes = bytesReceived.toByteArray();
         String packet = new String(bodyBytes);
-        System.out.println("sssss: " + packet);
+        System.out.println("Packet received " + packet);
 
         try{
             JSONObject respJo = new JSONObject(packet);
@@ -103,11 +92,9 @@ abstract class ApiCallback extends UrlRequest.Callback{
 
     @Override
     public void onFailed(UrlRequest request, UrlResponseInfo info, CronetException error) {
-
     }
 
-    abstract void postSucceeded(
+    public abstract void postSucceeded(
             UrlRequest request, UrlResponseInfo info, JSONObject respJo) throws JSONException, ParseException;
-
 
 }

@@ -16,6 +16,14 @@ import java.util.Iterator;
 import java.util.TimeZone;
 
 public class Utils {
+
+    public static int getCellsForSize(int size) {
+        int n = 2;
+        while (70 * n - 30 < size) {
+            ++n;
+        }
+        return n - 1;
+    }
     public static String[] ExtractArrivalTime(JSONObject busServiceJo) throws JSONException, ParseException {
         String[] arrivalTimeArr = new String[3];
         TimeZone sg_tz = TimeZone.getTimeZone("GMT+08:00");
@@ -29,6 +37,27 @@ public class Utils {
         return arrivalTimeArr;
     }
 
+    public static String GetCurrentSgtTime(String format_str){
+        if (format_str == null){
+            format_str = "dd-MM-yyyy' 'HH:mm:ss";
+        }
+        SimpleDateFormat format = new SimpleDateFormat(format_str);
+
+        TimeZone sg_tz = TimeZone.getTimeZone("GMT+08:00");
+        return format.format(Calendar.getInstance(sg_tz).getTime());
+    }
+
+    public static String ExtracArrivalTimeStr(String[] arrivalTimeArr){
+        String out = "";
+        for(int i=0; i <3; i++){
+            if(arrivalTimeArr[i] != "" ){
+                out += arrivalTimeArr[i] + ", ";
+            }
+        }
+        out = out.trim().replaceAll(",$", "") + " min";
+        return out;
+    }
+
     public static String FormatTimeDiff(SimpleDateFormat format, String timeString, Long currentTime){
         try{
             if(timeString.length() > 0){
@@ -39,51 +68,11 @@ public class Utils {
                 return String.valueOf(((format.parse(timeString).getTime() - currentTime) / (1000 * 60)) % 60) ;
             }
         } catch (ParseException e) {
-            System.out.println("EEROR " + timeString.length());
+            System.out.println("Error: " + timeString.length());
             e.printStackTrace();
             return "?";
         }
         return "";
-    }
-
-    public static Boolean CheckMetadataUpdaterequired(SharedPreferences sharedPref){
-//        SharedPreferences.Editor spEditor = sharedPreferences.edit();
-        Long lastMetadataUpdate = sharedPref.getLong("lastMetadataUpdate", 0);
-        Long currentTime = Calendar.getInstance().getTime().getTime();
-        Long threshold = Long.valueOf(24 * 3600000); //24 hours
-        if (currentTime - lastMetadataUpdate > threshold){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    public static JSONObject GetBusStopsMetadata(SharedPreferences sharedPref){
-        String strJson = sharedPref.getString("busStops",null);
-        try {
-            if (strJson != null) {
-                return new JSONObject(strJson);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            System.out.println("ERROR");
-        }
-        return null;
-    }
-
-    public static JSONObject ProcessBusStopsMetadata(JSONObject busStopsJo){
-        try {
-            JSONArray busStopsJa = busStopsJo.getJSONArray("value");
-            JSONObject outJo = new JSONObject();
-            for (int i = 0; i < busStopsJa.length(); i++) {
-                JSONObject jo = busStopsJa.getJSONObject(i);
-                outJo.put(jo.getString("BusStopCode"), jo);
-            }
-            return outJo;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     public static String ConcatJsonStrings(String s1, String s2){
@@ -103,13 +92,4 @@ public class Utils {
         return jo1;
     }
 
-    public static JSONObject GetStoredBusStopMetadata(SharedPreferences sharedPref, String busStopCode){
-        try {
-            JSONObject busStopsJo = GetBusStopsMetadata(sharedPref);
-            return busStopsJo.getJSONObject(busStopCode);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 }

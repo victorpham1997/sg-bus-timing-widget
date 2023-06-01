@@ -16,7 +16,6 @@ import java.util.List;
 
 
 public class SavedArrivalAdapter extends ArrayAdapter<BusInfoItem> {
-
     private int resourceLayout;
     private Context context;
     private DBHandler dbHandler;
@@ -27,7 +26,6 @@ public class SavedArrivalAdapter extends ArrayAdapter<BusInfoItem> {
         this.context = context;
         this.dbHandler =dbHandler;
     }
-
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -43,9 +41,8 @@ public class SavedArrivalAdapter extends ArrayAdapter<BusInfoItem> {
 
 
         if (currentItemView == null) {
-            currentItemView = LayoutInflater.from(getContext()).inflate(R.layout.saved_arrival_item, parent, false);
+            currentItemView = LayoutInflater.from(getContext()).inflate(R.layout.item_saved_arrival, parent, false);
         }
-
 
         if (busInfoItem != null) {
             TextView textViewBusNo =  currentItemView.findViewById(R.id.textViewBusNo);
@@ -65,7 +62,7 @@ public class SavedArrivalAdapter extends ArrayAdapter<BusInfoItem> {
                 textViewBusStopCode.setText(busStopCode);
             }
             if (textViewArrivalTime != null) {
-                String s = String.format("%1$s, %2$s, %3$s min(s)", arrivalTimeArr[0], arrivalTimeArr[1], arrivalTimeArr[2]);
+                String s = busInfoItem.getArrivalTimeStr();
                 textViewArrivalTime.setText(s);
             }
 

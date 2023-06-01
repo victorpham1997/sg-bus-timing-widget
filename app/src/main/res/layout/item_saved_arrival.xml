@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:layout_marginHorizontal="2dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewBusStopName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Opp Changi Village"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:id="@+id/textViewBusStopCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="015432"
+            android:textSize="13dp"/>
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/textViewBusNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_marginHorizontal="2dp"
+
+        android:layout_weight="1.1"
+        android:text="15"/>
+
+    <TextView
+        android:id="@+id/textViewArrivalTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_marginHorizontal="2dp"
+        android:layout_weight="0.9"
+        android:text="2, 5, 13"/>
+
+
+
+    <ToggleButton
+        android:id="@+id/toggleButtonSave"
+        android:background="@drawable/search_frag_save_button_background"
+        android:textOff="Save"
+        android:textOn="Saved"
+        android:layout_marginHorizontal="2dp"
+        android:textColor="@color/search_frag_save_button_text_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Save" />
+
+</LinearLayout>

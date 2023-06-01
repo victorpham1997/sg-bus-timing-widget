@@ -4,13 +4,8 @@
         android:width="0dp"
         android:color="@color/black" />
 
-    <solid android:color="@color/material_dynamic_secondary90" />
+    <solid android:color="@color/widget_secondary_bg_01" />
 
-    <padding
-        android:left="1dp"
-        android:right="1dp"
-        android:bottom="1dp"
-        android:top="1dp" />
 
     <corners
         android:radius="@android:dimen/system_app_widget_background_radius"/>

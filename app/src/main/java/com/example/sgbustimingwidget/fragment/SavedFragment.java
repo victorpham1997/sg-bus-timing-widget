@@ -23,7 +23,7 @@ public class SavedFragment extends Fragment {
 
     private DBHandler dbHandler;
     private NetworkEngine networkEngine;
-    private ListView listSavedArrival;
+    private ListView listViewSavedArrival;
 
     private ArrayList<BusInfoItem> savedArrivalItems;
     private SavedArrivalAdapter savedArrivalAdapter;
@@ -45,14 +45,14 @@ public class SavedFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_saved, container, false);
-        listSavedArrival = (ListView) view.findViewById(R.id.listSavedArrival);
+        listViewSavedArrival = (ListView) view.findViewById(R.id.listSavedArrival);
 
         savedArrivalItems = new ArrayList<BusInfoItem>();
-        savedArrivalAdapter = new SavedArrivalAdapter(getContext() , R.layout.saved_arrival_item, savedArrivalItems, dbHandler);
+        savedArrivalAdapter = new SavedArrivalAdapter(getContext() , R.layout.item_saved_arrival, savedArrivalItems, dbHandler);
 
 //        apiCallback.setBusInfoItems(savedArrivalItems);
 //        apiCallback.setAdapter(savedArrivalAdapter);
-        listSavedArrival.setAdapter(savedArrivalAdapter);
+        listViewSavedArrival.setAdapter(savedArrivalAdapter);
 
         Map<String, String>[] arrivalTable = this.dbHandler.GetTable("savedbusarrival");
 //        System.out.println(arrivalTable);

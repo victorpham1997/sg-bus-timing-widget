@@ -10,10 +10,7 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
-    <style
-        name="AppTheme"
-        parent="ThemeOverlay.Material3.DynamicColors.DayNight">
-    </style>
+    <style name="AppTheme" parent="ThemeOverlay.Material3.DynamicColors.DayNight"></style>
 
 
 </resources>

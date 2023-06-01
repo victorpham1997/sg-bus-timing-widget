@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="44dp" />
+            <solid android:color="@color/bottom_nav_icon_background_color" />
+            <size
+                android:width="55dp"
+                android:height="30dp" />
+
+        </shape>
+    </item>
+
+    <item>
+<!--        <bitmap-->
+<!--            android:src="@android:drawable/ic_menu_search"-->
+<!--            android:tint="@color/bottom_nav_icon_color"/>-->
+        <layer-list>
+            <item android:drawable="@drawable/baseline_star_border_24" android:gravity="center"/>
+        </layer-list>
+    </item>
+</layer-list>
+
+<!--<layer-list xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--    <item android:bottom="-20dp" android:left="-20dp">-->
+<!--        <shape android:shape="rectangle">-->
+<!--            <solid android:color="@color/white" />-->
+<!--            <corners android:radius="20dp" />-->
+<!--        </shape>-->
+<!--    </item>-->
+<!--</layer-list>-->
+
+
+<!--<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >-->
+<!--    <item>-->
+<!--        <shape android:shape="rectangle" >-->
+<!--            <size-->
+<!--                android:width="500dp"-->
+<!--                android:height="400dp" />-->
+<!--            <corners-->
+<!--                android:radius="10dp"/>-->
+<!--            <solid android:color="@color/bottom_nav_color_background" />-->
+<!--        </shape>-->
+<!--    </item>-->
+<!--    <item android:drawable="@android:drawable/ic_menu_search" />-->
+<!--</layer-list>-->

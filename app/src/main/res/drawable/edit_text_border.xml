@@ -6,12 +6,10 @@
         android:color="@android:color/transparent"/>
 
     <corners
-        android:bottomRightRadius="7dp"
-        android:bottomLeftRadius="7dp"
-        android:topLeftRadius="7dp"
-        android:topRightRadius="7dp"/>
+        android:radius="15dp"/>
+
     <stroke
-        android:color="@color/light_blue_900"
+        android:color="@color/material_dynamic_tertiary70"
         android:width="1dp"/>
 
 </shape>

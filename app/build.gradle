@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.sgbustimingwidget"
-        minSdk 21
+        minSdk 32
         targetSdk 32
         versionCode 1
         versionName "1.0"

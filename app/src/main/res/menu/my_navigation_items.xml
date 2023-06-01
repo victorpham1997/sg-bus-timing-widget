@@ -24,14 +24,17 @@
     <item
         android:id="@+id/search_page"
         android:enabled="true"
+        android:icon="@drawable/bot_nav_search_icon"
         android:title="SEARCH"/>
     <item
         android:id="@+id/saved_page"
         android:enabled="true"
+        android:icon="@drawable/bot_nav_saved_icon"
         android:title="SAVED ARRIVAL"/>
     <item
         android:id="@+id/profile_page"
         android:enabled="true"
+        android:icon="@drawable/bot_nav_profile_icon"
         android:title="PROFILE"/>
 
 </menu>

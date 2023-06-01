@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:orientation="horizontal"
+    android:background="@drawable/app_dialog_background"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:textColor="@color/app_on_neutral_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:textSize="11dp"
+            android:text="Hi. Thank you for using SG Bus Timing Widget.\n\nPSA!\nBattery saver or putting the app under restricted battery consumption will impact the performance of the widget."/>
+
+        <TextView
+            android:textColor="@color/app_on_neutral_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:textSize="11dp"
+            android:text="Widget's symbols' color and indication guide:"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_weight="2"
+                android:src="@drawable/img_about_arrival_color_indicator" />
+            <TextView
+                android:textColor="@color/app_on_neutral_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="5dp"
+                android:textSize="9dp"
+                android:layout_weight="1"
+                android:text="Green background indicates the arrival time &lt;= 5 mins\n\nBlue background indicates the arrival time &gt; 5 mins"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_weight="2"
+                android:src="@drawable/img_about_bus_icon_color" />
+            <TextView
+                android:textColor="@color/app_on_neutral_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="5dp"
+                android:textSize="9dp"
+                android:layout_weight="1"
+                android:text="Green bus icon indicates seats available\nOrange bus icon indicates standing available\nRed bus icon indicates limited standing available"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_weight="2"
+                android:src="@drawable/img_about_bus_icon" />
+            <TextView
+                android:textColor="@color/app_on_neutral_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="5dp"
+                android:textSize="9dp"
+                android:layout_weight="1"
+                android:text="There are bus icons for single decker and double decker"/>
+        </LinearLayout>
+
+        <TextView
+            android:textColor="@color/app_on_neutral_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:textSize="11dp"
+            android:text="For example the widgets below means the bus service 175 is arriving at Bus Stop 'Hotel Grand Pacific' in 9, 24 and 31 minutes. The next arrival bus (in 9 minutes) is a single decker bus with standing available capacity."/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="93dp"
+            android:layout_weight="2"
+            android:layout_marginBottom="12dp"
+            android:src="@drawable/img_about_example_widget" />
+
+        <TextView
+            android:textColor="@color/app_on_neutral_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="11dp"
+            android:text="For feedback or comments please visit: "/>
+
+        <TextView
+            android:id="@+id/textWebsite"
+            android:textColor="@color/app_on_neutral_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="11dp"
+            android:autoLink="web"
+            android:textIsSelectable="true"
+            android:textColorLink="@color/abs_green"
+            android:text="victorpham1997.github.io/"/>
+
+        <TextView
+            android:textColor="@color/app_on_neutral_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="11dp"
+            android:text="Or email me at"/>
+        <TextView
+            android:id="@+id/textEmail"
+            android:textColor="@color/app_on_neutral_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="11dp"
+            android:textIsSelectable="true"
+            android:layout_marginBottom="12dp"
+            android:text="victorpham1997@gmail.com"/>
+
+        <Button
+            android:id="@+id/buttonClose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CLOSE"/>
+
+
+    </LinearLayout>
+
+
+
+
+
+
+</LinearLayout>

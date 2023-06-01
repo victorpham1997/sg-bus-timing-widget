@@ -1,15 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/Theme.SGBusTimingWidget"
+    android:orientation="vertical"
     tools:context=".MainActivity">
+
+<!--    <com.google.android.material.appbar.MaterialToolbar-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@color/abs_red">-->
+
+<!--        -->
+<!--    </com.google.android.material.appbar.MaterialToolbar>-->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarTop"
+        android:layout_marginTop="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="SG Bus Timing Widget"
+            app:menu="@menu/top_app_bar_items"
+            app:subtitleTextColor="@color/abs_red"
+            app:popupTheme="@style/Theme.SGBusTimingWidget.PopupMenu"
+            android:background="@color/material_dynamic_secondary20"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            android:theme="@style/Theme.SGBusTimingWidget.Toolbar"
+            />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
         android:id="@+id/flFragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottomNavigationView"
+        android:layout_below="@+id/appBarTop"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -19,11 +51,18 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:background="@color/material_dynamic_secondary20"
+        app:itemIconSize="60dp"
+        app:itemIconTint="@color/bottom_nav_icon_background_color"
+        app:itemPaddingTop="-4dp"
+        app:itemTextColor="@color/bottom_nav_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/my_navigation_items"/>
+        app:menu="@menu/my_navigation_items" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

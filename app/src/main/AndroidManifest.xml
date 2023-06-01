@@ -12,7 +12,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SGBusTimingWidget">
         <receiver
-            android:name=".BusTimingWidget"
+            android:name=".widget.BusTimingWidgetSingle"
+            android:label="@string/BusTimingWidgetSingle_label"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.appwidget." />
+
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/bus_timing_widget_single_info" />
+        </receiver>
+        <receiver
+            android:name=".widget.BusTimingWidget"
+            android:label="@string/BusTimingWidget_label"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -23,6 +38,10 @@
                 android:resource="@xml/bus_timing_widget_info" />
         </receiver>
 
+        <service
+            android:name=".widget.WidgetRemoteViewService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -30,8 +49,22 @@
             android:theme="@style/Theme.SGBusTimingWidget.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <data android:scheme="geo" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name=".ArrivalSelectionActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.SGBusTimingWidget.NoActionBar">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
     </application>

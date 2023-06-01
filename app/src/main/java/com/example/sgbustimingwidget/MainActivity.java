@@ -1,17 +1,35 @@
 package com.example.sgbustimingwidget;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.sgbustimingwidget.database.DBHandler;
+import com.example.sgbustimingwidget.fragment.ProfileFragment;
 import com.example.sgbustimingwidget.fragment.SavedFragment;
 import com.example.sgbustimingwidget.fragment.SearchFragment;
 import com.example.sgbustimingwidget.network.NetworkEngine;
+import com.example.sgbustimingwidget.widget.BusTimingWidget;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.color.DynamicColors;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -24,13 +42,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
-    private SharedPreferences sharedPreferences;
-
-    public static SQLiteDatabase db;
-
-    public static SQLiteDatabase getDb() {
-        return db;
-    }
+    private MaterialToolbar toolbar;
 
 
     private DBHandler dbHandler;
@@ -39,43 +51,66 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
+
+        System.out.println("Oh call me maybe");
+
 
         // Define bus stop metatdata DB
         dbHandler = new DBHandler(MainActivity.this);
-        db = dbHandler.getWritableDatabase();
-        sharedPreferences = getSharedPreferences("WIDGET_SP", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("WIDGET_INDEX", 45);
-        editor.apply();
+
 
         // Define layout
         setContentView(R.layout.activity_main);
 
         // Define component
-//        apiCallback = new ApiCallback_legacy(this, dbHandler);
         networkEngine = new NetworkEngine(this, dbHandler);
 
 
 
-        if (dbHandler.CountDbRows() == 0){
+        if (dbHandler.CountDbRows(DBHandler.BUS_STOP_TABLE) == 0){
             System.out.println("Calling get busmetadata");
             networkEngine.GetBusStopMetadata(this, dbHandler);
         }
 
-        Map<String, String>[] tisMap =  dbHandler.Query("SELECT * FROM busstopmetadata WHERE code = 83139");
-        System.out.println("aaa: " + tisMap);
+        toolbar = findViewById(R.id.topAppBar);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.about:
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        LayoutInflater inflater = (MainActivity.this).getLayoutInflater();
+                        View dialogLayout = inflater.inflate(R.layout.dialog_about, null);
 
-        // Set fragment
-        if (savedInstanceState == null) {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flFragment, new SearchFragment(dbHandler, networkEngine));
-            ft.commit();
-        }
+                        Button buttonClose = dialogLayout.findViewById(R.id.buttonClose);
+                        TextView mWebsite = (TextView) dialogLayout.findViewById(R.id.textWebsite);
+                        TextView mEmail = (TextView) dialogLayout.findViewById(R.id.textEmail);
 
-        // Set up navigation buttons
+
+
+                        builder.setView(dialogLayout);
+                        AlertDialog alertDialog = builder.create();
+                        buttonClose.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                alertDialog.dismiss();
+                            }
+                        });
+                        mWebsite.setMovementMethod(LinkMovementMethod.getInstance());
+                        mEmail.setMovementMethod(LinkMovementMethod.getInstance());
+                        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        alertDialog.show();
+                        break;
+                }
+                return true;
+            }
+        });
+
 
         bottomNavigationView =  findViewById(R.id.bottomNavigationView);
-
+        bottomNavigationView.setItemIconTintList(null);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
             int itemId = item.getItemId();
@@ -85,64 +120,41 @@ public class MainActivity extends AppCompatActivity {
             else if (itemId == R.id.saved_page) {
                 selectedFragment = new SavedFragment(dbHandler, networkEngine);
             }
-//            else if (itemId == R.id.profile_page) {
-//                selectedFragment = new ProfileFragment();
-//            }
+            else if (itemId == R.id.profile_page) {
+                selectedFragment = new ProfileFragment();
+            }
 
             if (selectedFragment != null) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, selectedFragment).commit();
             }
             return true;
         });
+
+
+        // Set fragment
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Intent intent = getIntent();
+        String fragmentStr = intent.getStringExtra(BusTimingWidget.EXTRA_FRAGMENT_STRING);
+
+        if(fragmentStr!= null){
+            if(fragmentStr.equals("saved_arrival")){
+                ft.replace(R.id.flFragment, new SavedFragment(dbHandler, networkEngine));
+                ft.commit();
+                bottomNavigationView.setSelectedItemId(R.id.saved_page);
+            }else{
+                ft.replace(R.id.flFragment, new SearchFragment(dbHandler, networkEngine));
+                ft.commit();
+                bottomNavigationView.setSelectedItemId(R.id.search_page);
+            }
+        }
+        else if (savedInstanceState == null) {
+            ft.replace(R.id.flFragment, new SearchFragment(dbHandler, networkEngine));
+            ft.commit();
+            bottomNavigationView.setSelectedItemId(R.id.search_page);
+        }
+
+        // Set up navigation buttons
+
     }
-//    public void WidgetIntentInit(){
-//
-//        Map<String, String> arrival_l = arrivalTable[0];
-//        Map<String, String> arrival_r = arrivalTable[1];
-//        Map<String, String> busStopMetadata_l = dbHandler.FindBusStop(arrival_l.get("busno"))[0];
-//        Map<String, String> busStopMetadata_r = dbHandler.FindBusStop(arrival_r.get("busno"))[0];
-//
-//
-//    }
-
-//        buttonSearch.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                if (dbHandler.FindBusStop(editBusStopCode.getText().toString()).length < 1){
-//                    Toast.makeText(MainActivity.this,"Unable to find any result for " + editBusStopCode.getText().toString(),Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                String busStopCode = dbHandler.FindBusStop(editBusStopCode.getText().toString())[0].get("code");
-//                networkEngine.GetBusArrival(busStopCode, editBusNo.getText().toString());
-////                String resp = ApiCalls.busArrivalCall("83139", "15");
-////                System.out.println(resp);
-//            }
-//        });
-//
-//        buttonReloadDb.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                networkEngine.GetBusStopMetadata(MainActivity.this, dbHandler);
-//            }
-//        });
-
-//    @Override
-//    @SuppressLint("ResourceType")
-//    public void displayBusInfo(JSONArray busInfoJArr) throws JSONException {
-//        String s[] = new String[busInfoJArr.length()];
-//        for(int i = 0; i < busInfoJArr.length(); i++){
-//            s[i] = busInfoJArr.getJSONObject(i).getString("ServiceNo");
-//        }
-//        ArrayAdapter<String> arr;
-//        arr = new ArrayAdapter<String>(
-//            this,
-//            R.id.listBusInfo,
-//            s);
-//        listBusInfo.setAdapter(arr);
-//    }
-
-
-    //    button.setText("Press Me");
-//    LinearLayout layout = (LinearLayout) findViewById(R.id.layout1);
-//    layout.addView(myButton);
-
 
 }

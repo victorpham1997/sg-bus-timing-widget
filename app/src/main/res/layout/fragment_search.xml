@@ -23,15 +23,19 @@
                 android:id="@+id/textBusStopPrompt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bus Stop Code or Name\n(required)" />
+                android:textColor="@color/app_on_neutral_bg"
+                android:text="Bus Stop Code or Name" />
 
             <EditText
                 android:id="@+id/editBusStopSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
                 android:background="@drawable/edit_text_border"
-                android:hint="83139"
+                android:hint="required"
+                android:textColor="@color/app_on_neutral_bg"
                 android:padding="7dp" />
 
         </LinearLayout>
@@ -46,7 +50,8 @@
                 android:id="@+id/textBusNoPrompt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bus Number\n(optional)" />
+                android:textColor="@color/app_on_neutral_bg"
+                android:text="Bus Number" />
 
             <EditText
                 android:id="@+id/editBusNoSearch"
@@ -54,7 +59,10 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text_border"
                 android:layout_marginTop="5dp"
-                android:hint="15"
+                android:hint="optional"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
+                android:textColor="@color/app_on_neutral_bg"
                 android:inputType="number"
                 android:padding="7dp" />
         </LinearLayout>
@@ -66,21 +74,26 @@
             android:gravity="center|end"
             android:orientation="horizontal">
 
-            <Button
+            <ImageButton
                 android:id="@+id/buttonReloadDb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_margin="2dp"
                 android:layout_weight="1"
-                android:text="Reload" />
+                android:background="@drawable/search_frag_top_button_background"
+                android:tint="@color/material_dynamic_neutral10"
+                android:src="@android:drawable/ic_popup_sync"
+                />
 
-            <Button
+            <ImageButton
                 android:id="@+id/buttonSearch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_margin="2dp"
-                android:text="Search" />
+                android:background="@drawable/search_frag_top_button_background"
+                android:tint="@color/material_dynamic_neutral10"
+                android:src="@drawable/baseline_search_40"/>
 
         </LinearLayout>
 
@@ -95,35 +108,61 @@
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
         android:gravity="start|center"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/textBusStopCode"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:text="01012"
             android:textSize="40dp" />
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:gravity="center|left"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textBusStopName"
-                android:layout_width="wrap_content"
+                android:text="Hotel Grand Pacific"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/textStreetName"
+                android:text="Victoria St"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15dp" />
 
         </LinearLayout>
+
+        <LinearLayout
+            android:gravity="end"
+            android:layout_weight="1.8"
+            android:layout_gravity="end"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/buttonOpenStopOnMap"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="2dp"
+                android:background="@drawable/search_frag_top_button_background"
+                android:tint="@color/material_dynamic_neutral10"
+                android:src="@drawable/baseline_travel_explore_30"/>
+
+        </LinearLayout>
+
+
+
 
 
     </LinearLayout>

@@ -1,8 +1,9 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Widget.SGBusTimingWidget.AppWidget.Container" parent="android:Widget">
         <item name="android:padding">?attr/appWidgetPadding</item>
-        <item name="android:background">@drawable/app_widget_background</item>
+        <item name="background">@android:color/transparent</item>
+        <item name="android:background">@android:color/black</item>
         <item name="android:clipToOutline">true</item>
     </style>
 
@@ -10,10 +11,8 @@
         <item name="android:padding">?attr/appWidgetPadding</item>
         <item name="android:background">@drawable/app_widget_inner_view_background</item>
         <item name="android:clipToOutline">true</item>
+
     </style>
 
-    <style
-        name="AppTheme"
-        parent="ThemeOverlay.Material3.DynamicColors.DayNight">
-    </style>
+    <style name="AppTheme" parent="ThemeOverlay.Material3.DynamicColors.DayNight"></style>
 </resources>

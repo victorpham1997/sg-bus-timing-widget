@@ -158,7 +158,7 @@ public class ApiCallback_legacy extends UrlRequest.Callback{
         JSONArray busStopsJa = respJo.getJSONArray("value");
         if (busStopsJa.length() > 0){
             dbHandler.PushBusStopMetadataToDB(busStopsJa);
-            int currentDbRows = dbHandler.CountDbRows();
+            int currentDbRows = dbHandler.CountDbRows(DBHandler.BUS_STOP_TABLE);
             handler.post(new Runnable() {
                 @Override
                 public void run() {

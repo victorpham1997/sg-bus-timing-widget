@@ -1,0 +1,70 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutWidget"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:stateListAnimator="@null"
+    android:background="@drawable/widget_background">
+
+
+    <ImageButton
+        android:id="@+id/buttonReload"
+        android:elevation="100dp"
+        android:layout_gravity="end"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:tint="@color/widget_reload_btn_icon_style1"
+        android:background="@drawable/widget_reload_button_style1"
+        android:src="@android:drawable/ic_popup_sync" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="6dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:outlineProvider="background"
+            android:layout_weight="6"
+            android:clipToOutline="true"
+            android:background="@drawable/widget_listview_background"
+            android:orientation="vertical">
+            <ListView
+                android:id="@+id/widget_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                tools:listitem="@layout/widget_arrival_item_wide">
+            </ListView>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/textLastUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="10dp"
+            android:padding="2dp"
+            android:gravity="start|bottom"
+            android:text="Last update at 12:00pm"
+            android:textColor="@color/widget_on_secondary_faint_bg"
+            android:textSize="10dp" />
+
+    </LinearLayout>
+
+
+
+
+
+
+
+</FrameLayout>

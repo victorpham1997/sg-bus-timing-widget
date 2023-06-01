@@ -42,7 +42,7 @@ public class BusInfoAdapter extends ArrayAdapter<BusInfoItem> {
 
 
         if (currentItemView == null) {
-            currentItemView = LayoutInflater.from(getContext()).inflate(R.layout.bus_info_item, parent, false);
+            currentItemView = LayoutInflater.from(getContext()).inflate(R.layout.item_bus_info, parent, false);
         }
 
 
@@ -51,15 +51,13 @@ public class BusInfoAdapter extends ArrayAdapter<BusInfoItem> {
             TextView textViewArrivalTime = currentItemView.findViewById(R.id.textViewArrivalTime);
             ToggleButton saveButton = currentItemView.findViewById(R.id.toggleButtonSave);
 
-//            TextView busStopName = (TextView) currentItemView.findViewById(R.id.BusStopName);
-//            TextView busStopCode = (TextView) currentItemView.findViewById(R.id.BusStopCode);
-
 
             if (textViewBusNo != null) {
                 textViewBusNo.setText(busNo);
             }
             if (textViewArrivalTime != null) {
-                String s = String.format("%1$s, %2$s, %3$s min(s)", arrivalTimeArr[0], arrivalTimeArr[1], arrivalTimeArr[2]);
+                String s = busInfoItem.getArrivalTimeStr();
+//                String s = String.format("%1$s, %2$s, %3$s min(s)", arrivalTimeArr[0], arrivalTimeArr[1], arrivalTimeArr[2]);
                 textViewArrivalTime.setText(s);
             }
 
@@ -78,12 +76,6 @@ public class BusInfoAdapter extends ArrayAdapter<BusInfoItem> {
                     }
                 }
             });
-//            if (busStopName != null) {
-//                busStopName.setText(busInfoItem.getBusStopName());
-//            }
-//            if (busStopCode != null) {
-//                busStopCode.setText(busInfoItem.getBusStopCode());
-//            }
         }
         return currentItemView;
     }

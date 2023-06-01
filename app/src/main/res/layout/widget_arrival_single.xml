@@ -1,0 +1,116 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.SGBusTimingWidget.AppWidget.Container"
+    android:id="@+id/layoutWidgetArrivalSingle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@drawable/widget_background">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <TextView android:id="@+id/textBusNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/widget_on_secondary_faint_bg"
+                android:text="12"
+                android:includeFontPadding="false"
+                android:textSize="35dp"
+                android:textStyle="bold"
+                android:layout_marginRight="10dp"
+                ></TextView>
+
+            <LinearLayout
+                android:layout_marginRight="5dp"
+                android:layout_width="wrap_content"
+                android:background="@drawable/popup_menu_background"
+                android:clipToOutline="true"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/iconBusStatus"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="8dp"
+                    android:background="@color/dark_blue"
+                    android:src="@drawable/icon_double"
+                    android:tintMode="src_atop" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textBusStopName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:includeFontPadding="false"
+            android:textColor="@color/widget_on_secondary_faint_bg"
+            android:layout_gravity="center_vertical"
+            android:textSize="10dp"
+            android:textStyle="bold"
+            android:text="Opp Victoria School"
+            ></TextView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+             <TextView
+                android:id="@+id/textBusArrivalPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/widget_on_secondary_bg"
+                android:text="3 min"
+                android:textStyle="bold"
+                android:textSize="25dp"
+                android:gravity="start"
+                android:layout_gravity="center_vertical"
+                android:includeFontPadding="false"/>
+
+
+            <TextView
+                android:id="@+id/textBusArrivalSecondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:layout_marginLeft="3dp"
+                android:textColor="@color/widget_on_secondary_bg"
+                android:text="and\n 5,13 "
+                ></TextView>
+
+            <ImageView
+                android:id="@+id/reloadIcon"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@android:drawable/ic_popup_sync"
+                android:tint="@color/widget_on_secondary_bg"
+                android:layout_gravity="bottom"
+                android:visibility="invisible"/>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

@@ -1,0 +1,18 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/widgetItemContainer"
+    android:layout_marginVertical="2dp"
+    android:background="@drawable/widget_arrival_item_background"
+    >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/widget_on_secondary_bg"
+        android:paddingHorizontal="50dp"
+        android:paddingVertical="25dp"
+        android:gravity="center"
+        android:text="No Saved Bus Arrival found.\nplease select arrivals to save in the main App."/>
+
+</LinearLayout>

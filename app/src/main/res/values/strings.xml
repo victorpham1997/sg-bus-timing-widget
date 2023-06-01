@@ -1,8 +1,14 @@
 <resources>
     <string name="app_name">SG Bus Timing Widget</string>
+    <string name="BusTimingWidget_label">Multiple Bus Arrivals</string>
+    <string name="BusTimingWidgetSingle_label">Single Bus Arrival</string>
+
     <!-- Strings used for fragments for navigation -->
 
     <string name="appwidget_text">EXAMPLE</string>
-    <string name="app_widget_description">This is an app widget description</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="app_widget_description">Multiple Bus Arrival Timing Widget</string>
+    <string name="app_widget_single_description">Single Bus Arrival Timing Widget</string>
+    <string name="add_widget">Add widget</string>
+
+    <string name="no_data_prompt">No Saved Bus Arrival found.\nPlease select arrivals to save in the main App.</string>
 </resources>

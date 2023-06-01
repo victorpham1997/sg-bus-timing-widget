@@ -15,39 +15,27 @@ import java.util.Map;
 
 public class DBHandler extends SQLiteOpenHelper {
 
-    // creating a constant variables for our database.
-    // below variable is for our database name.
-    private static final String DB_NAME = "sgbuswidgetdb";
+    public static final String DB_NAME = "sgbuswidgetdb";
 
     // below int is our database version
-    private static final int DB_VERSION = 2;
+    public static final int DB_VERSION = 3;
+    public static final String BUS_STOP_TABLE = "busstopmetadata";
+    public static final String SAVED_BUS_ARV_TABLE = "savedbusarrival";
 
-    // below variable is for our table name.
-    private static final String BUS_STOP_TABLE = "busstopmetadata";
-    private static final String SAVED_BUS_ARV_TABLE = "savedbusarrival";
-
-    private static final String CODE_COL = "code";
-    private static final String ROADNAME_COL = "roadname";
-    private static final String DESC_COL = "description";
-    private static final String LAT_COL = "lat";
-    private static final String LONG_COL = "long";
-    private static final String BUS_NO_COL = "busno";
-
-    // below variable is for our course tracks column.
-
-    // creating a constructor for our database handler.
+    public static final String CODE_COL = "code";
+    public static final String ROADNAME_COL = "roadname";
+    public static final String DESC_COL = "description";
+    public static final String LAT_COL = "lat";
+    public static final String LONG_COL = "long";
+    public static final String BUS_NO_COL = "busno";
+    public static final String WIDGET_ID_COL = "widgetid";
 
     public DBHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
-    // below method is for creating a database by running a sqlite query
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // on below line we are creating
-        // an sqlite query and we are
-        // setting our column names
-        // along with their data types.
         String create_query1 = "CREATE TABLE " + BUS_STOP_TABLE + " ("
                 + CODE_COL + " TEXT PRIMARY KEY,"
                 + ROADNAME_COL + " TEXT,"
@@ -58,17 +46,15 @@ public class DBHandler extends SQLiteOpenHelper {
         String create_query2 = "CREATE TABLE " + SAVED_BUS_ARV_TABLE + " ("
                 + CODE_COL + " TEXT,"
                 + BUS_NO_COL + " TEXT,"
+                + WIDGET_ID_COL + " TEXT,"
                 + "PRIMARY KEY ("
                 + CODE_COL + ", "
                 + BUS_NO_COL + "))";
 
-        // at last we are calling a exec sql
-        // method to execute above sql query
         db.execSQL(create_query2);
         db.execSQL(create_query1);
     }
 
-    // this method is use to add new course to our sqlite database.
     public void addNewBusStopMetadata(String busStopCode, String roadName, String description, String lattitude, String longtitude) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -81,7 +67,8 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(LONG_COL, longtitude);
 
         int id = (int) db.insertWithOnConflict(BUS_STOP_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-//        db.close();
+
+        db.close();
     }
 
     public void addNewSavedBusArrival(String busStopCode, String busNo){
@@ -92,7 +79,8 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(BUS_NO_COL, busNo);
 
         int id = (int) db.insertWithOnConflict(SAVED_BUS_ARV_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-//        db.close();
+
+        db.close();
     }
 
     public void removeSavedBusArrival(String busStopCode, String busNo){
@@ -108,7 +96,8 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(BUS_NO_COL, busNo);
 
         db.execSQL(delete_query);
-//        db.close();
+
+        db.close();
     }
 
     public Boolean checkSavedBusArrival(String busStopCode, String busNo){
@@ -117,14 +106,21 @@ public class DBHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectSavedBusArrivalQuery,null);
         int rows = cursor.getCount();
         cursor.close();
-//        db.close();
+        db.close();
         return (rows > 0);
     }
 
     public void DeleteTable(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from "+ BUS_STOP_TABLE);
-//        db.close();
+        db.close();
+    }
+
+    public void WriteDataToTable(String table, String set, String condition){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String updateQuery = String.format("UPDATE %s SET %s WHERE %s", table, set, condition);
+        db.execSQL(updateQuery);
+        db.close();
     }
 
     public Map<String, String>[] Query(String query){
@@ -141,39 +137,9 @@ public class DBHandler extends SQLiteOpenHelper {
             row++;
         }
         cursor.moveToFirst();
-//        db.close();
+        db.close();
+        cursor.close();
         return out_arr;
-    }
-
-    public static Map<String, String>[] Query(String query, SQLiteDatabase db ){
-        Cursor cursor = db.rawQuery(query,null);
-        Map<String, String>[] out_arr = new Map[cursor.getCount()];
-        int row =0;
-        while (cursor.moveToNext()) {
-            Map<String, String> out = new HashMap<String, String>();
-            out_arr[row] = out;
-            for(int i = 0; i < cursor.getColumnCount(); i++){
-                out.put(cursor.getColumnName(i), cursor.getString(i));
-            }
-            row++;
-        }
-        cursor.moveToFirst();
-//        db.close();
-        return out_arr;
-    }
-
-    public static Map<String, String>[] GetTable(String table_name,  SQLiteDatabase db){
-        String query = "SELECT * FROM " + table_name;
-        return Query(query, db);
-    }
-
-    public static Map<String, String>[] FindBusStop(String input, SQLiteDatabase db){
-        input = input.trim();
-        if (input.matches("-?\\d+(\\.\\d+)?")){
-            return Query("SELECT * FROM busstopmetadata WHERE code like '%" + input + "%'", db);
-        }else{
-            return Query("SELECT * FROM busstopmetadata WHERE lower(description) like lower('%" + input + "%')", db);
-        }
     }
 
     public Map<String, String>[] GetTable(String table_name){
@@ -190,12 +156,12 @@ public class DBHandler extends SQLiteOpenHelper {
         }
     }
 
-    public int CountDbRows(){
+    public int CountDbRows(String table_name){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + BUS_STOP_TABLE,null);
+        Cursor cursor = db.rawQuery("select * from " + table_name,null);
         int rows = cursor.getCount();
         cursor.close();
-//        db.close();
+        db.close();
         return rows;
     }
 
@@ -208,7 +174,6 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // this method is called to check if the table exists already.
         db.execSQL("DROP TABLE IF EXISTS " + BUS_STOP_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + SAVED_BUS_ARV_TABLE );
         onCreate(db);
