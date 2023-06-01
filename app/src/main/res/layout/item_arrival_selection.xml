@@ -44,9 +44,9 @@
 
     <Button
         android:id="@+id/buttonSelect"
-        android:background="@drawable/search_frag_save_button_background"
+        android:background="@drawable/activity_arrival_selection_button_background"
         android:layout_marginHorizontal="2dp"
-        android:textColor="@color/app_on_neutral_bg"
+        android:textColor="@color/activity_arrival_selection_select_text_color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
