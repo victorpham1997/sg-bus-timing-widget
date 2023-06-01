@@ -12,9 +12,9 @@ Any queries or bug report please contact me at victorpham1997@gmail.com.
 
 ## Screenshots
 
-![app_ui](C:\Users\victorpham1997\AndroidStudioProjects\SGBusTimingWidget\screenshots\app_ui.png)
+![app_ui](https://raw.githubusercontent.com/victorpham1997/sg-bus-timing-widget/master/screenshots/app_ui.png)
 
-![showcase_multicolor](C:\Users\victorpham1997\AndroidStudioProjects\SGBusTimingWidget\screenshots\showcase_multicolor.png)
+![showcase_multicolor](https://raw.githubusercontent.com/victorpham1997/sg-bus-timing-widget/master/screenshots/showcase_multicolor.png)
 
 
 
