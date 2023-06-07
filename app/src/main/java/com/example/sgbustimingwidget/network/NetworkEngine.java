@@ -101,13 +101,14 @@ public class NetworkEngine {
         String url = String.format("http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=%1$s&ServiceNo=%2$s", busStopCode.trim(), serviceNo.trim());
         CronetEngine.Builder engineBuilder = new CronetEngine.Builder(context);
         CronetEngine engine = engineBuilder.build();
-//        Executor executor = Executors.newSingleThreadExecutor();
+        Executor executor = Executors.newSingleThreadExecutor();
         UrlRequest.Builder requestBuilder = engine. newUrlRequestBuilder(
-                url, apiCallback, cronetCallbackExecutorService);
+                url, apiCallback, executor);
         requestBuilder.setHttpMethod("GET");
         requestBuilder.addHeader("accept", "application/json");
         requestBuilder.addHeader("AccountKey", "vBdsrPSuR5692Y//pACMfQ==");
         UrlRequest request = requestBuilder.build();
+        System.out.println("Starting request");
         request.start();
     }
 

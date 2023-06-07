@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.SizeF;
 import android.widget.RemoteViews;
 
@@ -31,6 +32,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 
 
@@ -47,8 +49,7 @@ public class BusTimingWidget extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
-        for (int i=0; i < appWidgetIds.length; i++) {
-            int appWidgetId = appWidgetIds[i];
+        for (int appWidgetId : appWidgetIds) {
 
             Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
             // Get min width and height.
@@ -157,6 +158,10 @@ public class BusTimingWidget extends AppWidgetProvider {
         NetworkEngine networkEngine = new NetworkEngine(context, dbHandler);
         Map<String, String>[] arrivalTable = dbHandler.GetTable(DBHandler.SAVED_BUS_ARV_TABLE);
 
+//        Intent intent_bypass_bgres = new Intent(Settings.ACTION_IGNORE_BACKGROUND_DATA_RESTRICTIONS_SETTINGS, Uri.parse("package:" + context.getPackageName()));
+//        intent_bypass_bgres.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        context.startActivity(intent_bypass_bgres);
+
         if(arrivalTable.length == 0){
             try {
                 BusInfoItem busInfoItem = new BusInfoItem("NODATA", null, null, null);
@@ -190,19 +195,25 @@ public class BusTimingWidget extends AppWidgetProvider {
                     public void postSucceeded(UrlRequest request, UrlResponseInfo info, JSONObject respJo) {
                         try {
                             JSONArray busInfoJArr = (JSONArray) respJo.get("Services");
-                            String[] arrivalTimeArr;
+//                            String[] arrivalTimeArr;
+                            List<Map<String, String>> arrivalList;
                             JSONObject busServiceJo;
                             BusInfoItem busInfoItem;
+
                             if(busInfoJArr.length() == 0){
-                                arrivalTimeArr = new String[0];
-                                busInfoItem = new BusInfoItem(busNo, arrivalTimeArr, busNo, busStopMetadata);
-                                busInfoItem.setPrimaryBusMetadata(null,null);
+                                busServiceJo = null;
+//                                arrivalList = new ArrayList<>(0);
+//                                busInfoItem = new BusInfoItem(busNo, arrivalList, busNo, busStopMetadata);
+//                                busInfoItem.setPrimaryBusMetadata(null,null);
                             }else{
                                 busServiceJo = busInfoJArr.getJSONObject(0);
-                                arrivalTimeArr = Utils.ExtractArrivalTime(busServiceJo);
-                                busInfoItem = new BusInfoItem(busNo, arrivalTimeArr, busNo, busStopMetadata);
-                                busInfoItem.setPrimaryBusMetadata(busServiceJo.getJSONObject("NextBus").getString("Type"), busServiceJo.getJSONObject("NextBus").getString("Load"));
+//                                arrivalTimeArr = Utils.ExtractArrivalTime(busServiceJo);
+//                                arrivalList = Utils.ExtractArrival(busServiceJo);
+//                                busInfoItem = new BusInfoItem(busNo, arrivalList, busNo, busStopMetadata);
+//                                busInfoItem.setPrimaryBusMetadata(busServiceJo.getJSONObject("NextBus").getString("Type"), busServiceJo.getJSONObject("NextBus").getString("Load"));
                             }
+                            arrivalList = Utils.ExtractArrival(busServiceJo);
+                            busInfoItem = new BusInfoItem(busNo, arrivalList, busNo, busStopMetadata);
                             savedArrivalItems.add(busInfoItem);
 
                             if(savedArrivalItems.size() ==arrivalTable.length){

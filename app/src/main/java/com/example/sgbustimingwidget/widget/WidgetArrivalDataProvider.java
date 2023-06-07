@@ -1,6 +1,5 @@
 package com.example.sgbustimingwidget.widget;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.view.Gravity;
@@ -10,8 +9,6 @@ import android.widget.RemoteViewsService;
 
 import com.example.sgbustimingwidget.R;
 import com.example.sgbustimingwidget.adapter.BusInfoItem;
-import com.example.sgbustimingwidget.database.DBHandler;
-import com.example.sgbustimingwidget.network.NetworkEngine;
 
 import java.util.ArrayList;
 
@@ -90,10 +87,34 @@ public class WidgetArrivalDataProvider implements RemoteViewsService.RemoteViews
         views.setTextViewText(R.id.textBusStopName, savedArrivalItems.get(position).getBusStopName());
         views.setTextViewText(R.id.textBusNo, savedArrivalItems.get(position).getBusNo());
         views.setInt(R.id.layoutNextBus, "setBackgroundColor", context.getResources().getColor(getPrimaryLayoutColor(arrivalTimeArr)));
-        views.setTextViewText(R.id.textBusArrivalPrimary, savedArrivalItems.get(position).getArrivalTimePrimaryStr());
-        views.setTextViewText(R.id.textBusArrivalSecondary, savedArrivalItems.get(position).getArrivalTimeSecondaryStr(narrow));
-        setBusIconColor(savedArrivalItems.get(position).getPrimaryBusCapacity(), views);
-        getPrimaryBusIcon(savedArrivalItems.get(position).getPrimaryBusType(), views);
+
+        views.setTextViewText(R.id.textBusArrivalPrimary, savedArrivalItems.get(position).getArrivalList().get(0).get("estimatedArrivalMin"));
+        setBusIconColorPrimary(savedArrivalItems.get(position).getArrivalList().get(0).get("capacity"), views);
+        setPrimaryBusIcon(savedArrivalItems.get(position).getArrivalList().get(0).get("type"), views);
+
+        if(!savedArrivalItems.get(position).getArrivalList().get(1).get("estimatedArrivalMin").equals("")){
+            views.setTextViewText(R.id.textBusArrival2, savedArrivalItems.get(position).getArrivalList().get(1).get("estimatedArrivalMin"));
+            views.setInt(R.id.iconBusStatus2, "setColorFilter", context.getResources().getColor(getBusIconColor(savedArrivalItems.get(position).getArrivalList().get(1).get("capacity"))));
+            views.setImageViewResource(R.id.iconBusStatus2, getBusIcon(savedArrivalItems.get(position).getArrivalList().get(1).get("type")));
+        }else{
+            views.setViewVisibility(R.id.layoutNextBus2, View.GONE);
+        }
+
+        if(!savedArrivalItems.get(position).getArrivalList().get(2).get("estimatedArrivalMin").equals("")){
+            views.setTextViewText(R.id.textBusArrival3, savedArrivalItems.get(position).getArrivalList().get(2).get("estimatedArrivalMin"));
+            views.setInt(R.id.iconBusStatus3, "setColorFilter", context.getResources().getColor(getBusIconColor(savedArrivalItems.get(position).getArrivalList().get(2).get("capacity"))));
+            views.setImageViewResource(R.id.iconBusStatus3, getBusIcon(savedArrivalItems.get(position).getArrivalList().get(2).get("type")));
+        }else{
+            views.setViewVisibility(R.id.layoutNextBus3, View.GONE);
+        }
+
+
+//        views.setTextViewText(R.id.textBusArrivalPrimary, savedArrivalItems.get(position).getArrivalTimePrimaryStr());
+
+
+//        views.setTextViewText(R.id.textBusArrivalSecondary, savedArrivalItems.get(position).getArrivalTimeSecondaryStr(narrow));
+//        setBusIconColor(savedArrivalItems.get(position).getPrimaryBusCapacity(), views);
+//        getPrimaryBusIcon(savedArrivalItems.get(position).getPrimaryBusType(), views);
 
         return views;
     }
@@ -130,7 +151,7 @@ public class WidgetArrivalDataProvider implements RemoteViewsService.RemoteViews
         }
     }
 
-    public void getPrimaryBusIcon(String primaryBusType, RemoteViews rv) {
+    public void setPrimaryBusIcon(String primaryBusType, RemoteViews rv) {
         Integer busIcon;
         if(primaryBusType == null){
             rv.setViewVisibility(R.id.iconBusStatus, View.GONE);
@@ -148,7 +169,17 @@ public class WidgetArrivalDataProvider implements RemoteViewsService.RemoteViews
         rv.setImageViewResource(R.id.iconBusStatus, busIcon);
     }
 
-    public void setBusIconColor(String primaryBusCapacity, RemoteViews rv) {
+    public Integer getBusIcon(String primaryBusType){
+        Integer busIcon;
+        if(primaryBusType.equals("DD")) {
+            busIcon = R.drawable.icon_double;
+        } else {
+            busIcon =  R.drawable.icon_single;
+        }
+        return busIcon;
+    }
+
+    public void setBusIconColorPrimary(String primaryBusCapacity, RemoteViews rv) {
         Integer busIconColor;
         if( primaryBusCapacity == null){
             rv.setViewVisibility(R.id.iconBusStatus, View.GONE);
@@ -165,5 +196,18 @@ public class WidgetArrivalDataProvider implements RemoteViewsService.RemoteViews
             busIconColor = R.color.abs_orange;
         }
         rv.setInt(R.id.iconBusStatus, "setColorFilter", context.getResources().getColor(busIconColor));
+    }
+
+    public Integer getBusIconColor(String busCapacity) {
+        Integer busIconColor;
+
+        if (busCapacity.equals("SEA")) {
+            busIconColor = R.color.abs_green;
+        }else if (busCapacity.equals("LSD")) {
+            busIconColor = R.color.abs_red;
+        }else{
+            busIconColor = R.color.abs_orange;
+        }
+        return busIconColor;
     }
 }

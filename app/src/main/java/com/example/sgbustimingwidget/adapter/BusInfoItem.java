@@ -2,6 +2,7 @@ package com.example.sgbustimingwidget.adapter;
 
 import org.json.JSONException;
 
+import java.util.List;
 import java.util.Map;
 
 public class BusInfoItem {
@@ -9,15 +10,16 @@ public class BusInfoItem {
     private String busStopCode;
     private String busStopName;
     private String [] arrivalTimeArr;
+    private List<Map<String, String>> arrivalList;
     private Map<String, String> busStopMetadata;
 
     private String primaryBusType;
     private String primaryBusCapacity;
     private String widgetId;
 
-    public BusInfoItem(String busNo, String[] arrivalTimeArr, String busStopCode,  Map<String, String> busStopMetadata) throws JSONException {
+    public BusInfoItem(String busNo, List<Map<String, String>> arrivalList, String busStopCode, Map<String, String> busStopMetadata) throws JSONException {
         this.busNo = busNo;
-        this.arrivalTimeArr = arrivalTimeArr;
+        this.arrivalList = arrivalList;
         this.busStopCode = busStopCode;
         this.busStopMetadata = busStopMetadata;
         widgetId = null;
@@ -37,20 +39,23 @@ public class BusInfoItem {
     public String[] getArrivalTimeArr(){
         return arrivalTimeArr;
     }
+    public List<Map<String, String>> getArrivalList(){
+        return arrivalList;
+    }
 
     public String getWidgetId(){
         return widgetId;
     }
 
     public String getArrivalTimeStr(){
-        if(arrivalTimeArr == null){
-            return "not available";
-        }
         String out = "";
         for(int i=0; i <3; i++){
-            if(arrivalTimeArr[i] != "" ){
-                out += arrivalTimeArr[i] + ", ";
+            if(arrivalList.get(i).get("estimatedArrivalMin").equals("")){
+                out += arrivalList.get(i).get("estimatedArrivalMin") + ", ";
             }
+        }
+        if(out.equals("")){
+            return "not available";
         }
         out = out.trim().replaceAll(",$", "") + " min";
         return out;
