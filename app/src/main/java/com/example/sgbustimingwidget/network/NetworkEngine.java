@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
@@ -172,8 +173,9 @@ public class NetworkEngine {
         Map<String, String> busStopMetadata = dbHandler.FindBusStop(busStopCode)[0];
         for(int i = 0; i < busInfoJArr.length(); i++){
             String busNo = busInfoJArr.getJSONObject(i).getString("ServiceNo");
-            String[] arrivalTimeArr = Utils.ExtractArrivalTime(busInfoJArr.getJSONObject(i));
-            busInfoItems.add( new BusInfoItem(busNo, arrivalTimeArr, busStopCode, busStopMetadata));
+//            String[] arrivalTimeArr = Utils.ExtractArrivalTime(busInfoJArr.getJSONObject(i));
+            List<Map<String, String>>  arrivalList = Utils.ExtractArrival(busInfoJArr.getJSONObject(i));
+            busInfoItems.add( new BusInfoItem(busNo, arrivalList, busStopCode, busStopMetadata));
         }
     }
 
@@ -188,8 +190,9 @@ public class NetworkEngine {
         }
         for(int i = 0; i < busInfoJArr.length(); i++){
             String busNo = busInfoJArr.getJSONObject(i).getString("ServiceNo");
-            String[] arrivalTimeArr = Utils.ExtractArrivalTime(busInfoJArr.getJSONObject(i));
-            busInfoItems.add( new BusInfoItem(busNo, arrivalTimeArr, busStopCode, busStopMetadata));
+//            String[] arrivalTimeArr = Utils.ExtractArrivalTime(busInfoJArr.getJSONObject(i));
+            List<Map<String, String>>  arrivalList = Utils.ExtractArrival(busInfoJArr.getJSONObject(i));
+            busInfoItems.add( new BusInfoItem(busNo, arrivalList, busStopCode, busStopMetadata));
         }
     }
 }

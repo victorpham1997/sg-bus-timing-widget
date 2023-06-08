@@ -49,8 +49,9 @@ public class BusInfoItem {
 
     public String getArrivalTimeStr(){
         String out = "";
+        System.out.println(arrivalList);
         for(int i=0; i <3; i++){
-            if(arrivalList.get(i).get("estimatedArrivalMin").equals("")){
+            if(!arrivalList.get(i).get("estimatedArrivalMin").equals("")){
                 out += arrivalList.get(i).get("estimatedArrivalMin") + ", ";
             }
         }

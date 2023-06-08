@@ -56,11 +56,27 @@ public class WidgetArrivalDataProvider implements RemoteViewsService.RemoteViews
         Boolean narrow;
 
 
+
+
         if(widgetWidthCell <340){
             narrow = true;
             views = new RemoteViews(context.getPackageName(), R.layout.widget_arrival_item_narrow);
             System.out.println("NARROW ASS");
             System.out.println(widgetWidthCell);
+
+            if(savedArrivalItems.get(position).getBusNo().equals("NODATA")){
+                System.out.println("No data detected");
+                views.setTextViewText(R.id.textBusNo, context.getString(R.string.no_data_prompt));
+                views.setFloat(R.id.textBusNo, "setTextSize", 15);
+                views.setInt(R.id.textBusNo, "setGravity", Gravity.CENTER);
+                views.setViewPadding(R.id.textBusNo, 0, 50, 0, 50);
+                views.setViewVisibility(R.id.layoutRight, View.GONE);
+                return views;
+            }
+
+
+
+
 
         }else{
             narrow = false;
@@ -68,53 +84,43 @@ public class WidgetArrivalDataProvider implements RemoteViewsService.RemoteViews
             System.out.println("WIDE ASS");
             System.out.println(widgetWidthCell);
 
+            if(savedArrivalItems.get(position).getBusNo().equals("NODATA")){
+                System.out.println("No data detected");
+                views.setTextViewText(R.id.textBusNo, context.getString(R.string.no_data_prompt));
+                views.setFloat(R.id.textBusNo, "setTextSize", 15);
+                views.setInt(R.id.textBusNo, "setGravity", Gravity.CENTER);
+                views.setViewPadding(R.id.textBusNo, 0, 50, 0, 50);
+                views.setViewVisibility(R.id.layoutRight, View.GONE);
+                return views;
+            }
+
+            if(!savedArrivalItems.get(position).getArrivalList().get(1).get("estimatedArrivalMin").equals("")){
+                views.setInt(R.id.layoutNextBus2, "setBackgroundColor", context.getResources().getColor(getLayoutColor(savedArrivalItems.get(position).getArrivalList().get(1).get("estimatedArrivalMin"))));
+                views.setTextViewText(R.id.textBusArrival2, savedArrivalItems.get(position).getArrivalList().get(1).get("estimatedArrivalMin"));
+                views.setInt(R.id.iconBusStatus2, "setColorFilter", context.getResources().getColor(getBusIconColor(savedArrivalItems.get(position).getArrivalList().get(1).get("capacity"))));
+                views.setImageViewResource(R.id.iconBusStatus2, getBusIcon(savedArrivalItems.get(position).getArrivalList().get(1).get("type")));
+            }else{
+                views.setViewVisibility(R.id.layoutNextBus2, View.GONE);
+            }
+
+            if(!savedArrivalItems.get(position).getArrivalList().get(2).get("estimatedArrivalMin").equals("")){
+                views.setInt(R.id.layoutNextBus3, "setBackgroundColor", context.getResources().getColor(getLayoutColor(savedArrivalItems.get(position).getArrivalList().get(2).get("estimatedArrivalMin"))));
+                views.setTextViewText(R.id.textBusArrival3, savedArrivalItems.get(position).getArrivalList().get(2).get("estimatedArrivalMin"));
+                views.setInt(R.id.iconBusStatus3, "setColorFilter", context.getResources().getColor(getBusIconColor(savedArrivalItems.get(position).getArrivalList().get(2).get("capacity"))));
+                views.setImageViewResource(R.id.iconBusStatus3, getBusIcon(savedArrivalItems.get(position).getArrivalList().get(2).get("type")));
+            }else{
+                views.setViewVisibility(R.id.layoutNextBus3, View.GONE);
+            }
         }
-
-        if(savedArrivalItems.get(position).getBusNo().equals("NODATA")){
-            System.out.println("No data detected");
-            views.setTextViewText(R.id.textBusNo, context.getString(R.string.no_data_prompt));
-            views.setFloat(R.id.textBusNo, "setTextSize", 15);
-            views.setInt(R.id.textBusNo, "setGravity", Gravity.CENTER);
-            views.setViewPadding(R.id.textBusNo, 0, 50, 0, 50);
-            views.setViewVisibility(R.id.layoutRight, View.GONE);
-            return views;
-        }
-
-
-
-        String[] arrivalTimeArr = savedArrivalItems.get(position).getArrivalTimeArr();
 
         views.setTextViewText(R.id.textBusStopName, savedArrivalItems.get(position).getBusStopName());
         views.setTextViewText(R.id.textBusNo, savedArrivalItems.get(position).getBusNo());
-        views.setInt(R.id.layoutNextBus, "setBackgroundColor", context.getResources().getColor(getPrimaryLayoutColor(arrivalTimeArr)));
+        views.setInt(R.id.layoutNextBus, "setBackgroundColor", context.getResources().getColor(getLayoutColor(savedArrivalItems.get(position).getArrivalList().get(0).get("estimatedArrivalMin"))));
 
         views.setTextViewText(R.id.textBusArrivalPrimary, savedArrivalItems.get(position).getArrivalList().get(0).get("estimatedArrivalMin"));
         setBusIconColorPrimary(savedArrivalItems.get(position).getArrivalList().get(0).get("capacity"), views);
         setPrimaryBusIcon(savedArrivalItems.get(position).getArrivalList().get(0).get("type"), views);
 
-        if(!savedArrivalItems.get(position).getArrivalList().get(1).get("estimatedArrivalMin").equals("")){
-            views.setTextViewText(R.id.textBusArrival2, savedArrivalItems.get(position).getArrivalList().get(1).get("estimatedArrivalMin"));
-            views.setInt(R.id.iconBusStatus2, "setColorFilter", context.getResources().getColor(getBusIconColor(savedArrivalItems.get(position).getArrivalList().get(1).get("capacity"))));
-            views.setImageViewResource(R.id.iconBusStatus2, getBusIcon(savedArrivalItems.get(position).getArrivalList().get(1).get("type")));
-        }else{
-            views.setViewVisibility(R.id.layoutNextBus2, View.GONE);
-        }
-
-        if(!savedArrivalItems.get(position).getArrivalList().get(2).get("estimatedArrivalMin").equals("")){
-            views.setTextViewText(R.id.textBusArrival3, savedArrivalItems.get(position).getArrivalList().get(2).get("estimatedArrivalMin"));
-            views.setInt(R.id.iconBusStatus3, "setColorFilter", context.getResources().getColor(getBusIconColor(savedArrivalItems.get(position).getArrivalList().get(2).get("capacity"))));
-            views.setImageViewResource(R.id.iconBusStatus3, getBusIcon(savedArrivalItems.get(position).getArrivalList().get(2).get("type")));
-        }else{
-            views.setViewVisibility(R.id.layoutNextBus3, View.GONE);
-        }
-
-
-//        views.setTextViewText(R.id.textBusArrivalPrimary, savedArrivalItems.get(position).getArrivalTimePrimaryStr());
-
-
-//        views.setTextViewText(R.id.textBusArrivalSecondary, savedArrivalItems.get(position).getArrivalTimeSecondaryStr(narrow));
-//        setBusIconColor(savedArrivalItems.get(position).getPrimaryBusCapacity(), views);
-//        getPrimaryBusIcon(savedArrivalItems.get(position).getPrimaryBusType(), views);
 
         return views;
     }
@@ -139,11 +145,11 @@ public class WidgetArrivalDataProvider implements RemoteViewsService.RemoteViews
         return true;
     }
 
-    public Integer getPrimaryLayoutColor(String[] arrivalTimeArr) {
-        if (arrivalTimeArr.length == 0) {
+    public Integer getLayoutColor(String estimatedArrivalMin) {
+        if (estimatedArrivalMin.equals("")) {
             return R.color.error_red;
         }
-        Integer primary_arrival_time_int = Integer.parseInt(arrivalTimeArr[0]);
+        Integer primary_arrival_time_int = Integer.parseInt(estimatedArrivalMin);
         if (primary_arrival_time_int <= 5) {
             return R.color.positive_green;
         } else {
