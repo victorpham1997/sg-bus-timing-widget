@@ -144,7 +144,7 @@ public class ApiCallback_legacy extends UrlRequest.Callback{
                         for(int i = 0; i < busInfoJArr.length(); i++){
                             String busNo = busInfoJArr.getJSONObject(i).getString("ServiceNo");
                             String[] arrivalTimeArr = Utils.ExtractArrivalTime(busInfoJArr.getJSONObject(i));
-                        busInfoItems.add( new BusInfoItem(busNo, arrivalTimeArr, busStopCode, busStopMetadata));
+//                        busInfoItems.add( new BusInfoItem(busNo, arrivalTimeArr, busStopCode, busStopMetadata));
                         }
                     } catch (JSONException | ParseException e) {
                         e.printStackTrace();

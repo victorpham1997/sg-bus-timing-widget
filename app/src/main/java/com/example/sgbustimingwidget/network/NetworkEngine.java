@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
@@ -101,13 +102,14 @@ public class NetworkEngine {
         String url = String.format("http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=%1$s&ServiceNo=%2$s", busStopCode.trim(), serviceNo.trim());
         CronetEngine.Builder engineBuilder = new CronetEngine.Builder(context);
         CronetEngine engine = engineBuilder.build();
-//        Executor executor = Executors.newSingleThreadExecutor();
+        Executor executor = Executors.newSingleThreadExecutor();
         UrlRequest.Builder requestBuilder = engine. newUrlRequestBuilder(
-                url, apiCallback, cronetCallbackExecutorService);
+                url, apiCallback, executor);
         requestBuilder.setHttpMethod("GET");
         requestBuilder.addHeader("accept", "application/json");
         requestBuilder.addHeader("AccountKey", "vBdsrPSuR5692Y//pACMfQ==");
         UrlRequest request = requestBuilder.build();
+        System.out.println("Starting request");
         request.start();
     }
 
@@ -171,8 +173,9 @@ public class NetworkEngine {
         Map<String, String> busStopMetadata = dbHandler.FindBusStop(busStopCode)[0];
         for(int i = 0; i < busInfoJArr.length(); i++){
             String busNo = busInfoJArr.getJSONObject(i).getString("ServiceNo");
-            String[] arrivalTimeArr = Utils.ExtractArrivalTime(busInfoJArr.getJSONObject(i));
-            busInfoItems.add( new BusInfoItem(busNo, arrivalTimeArr, busStopCode, busStopMetadata));
+//            String[] arrivalTimeArr = Utils.ExtractArrivalTime(busInfoJArr.getJSONObject(i));
+            List<Map<String, String>>  arrivalList = Utils.ExtractArrival(busInfoJArr.getJSONObject(i));
+            busInfoItems.add( new BusInfoItem(busNo, arrivalList, busStopCode, busStopMetadata));
         }
     }
 
@@ -182,13 +185,14 @@ public class NetworkEngine {
         String busStopCode = respJo.getString("BusStopCode");
         Map<String, String> busStopMetadata = dbHandler.FindBusStop(busStopCode)[0];
         if(busInfoJArr.length() == 0){
-            busInfoItems.add( new BusInfoItem(bus_no, null, busStopCode, busStopMetadata));
+            busInfoItems.add( new BusInfoItem(bus_no, new ArrayList<Map<String, String>>(0) , busStopCode, busStopMetadata));
             return;
         }
         for(int i = 0; i < busInfoJArr.length(); i++){
             String busNo = busInfoJArr.getJSONObject(i).getString("ServiceNo");
-            String[] arrivalTimeArr = Utils.ExtractArrivalTime(busInfoJArr.getJSONObject(i));
-            busInfoItems.add( new BusInfoItem(busNo, arrivalTimeArr, busStopCode, busStopMetadata));
+//            String[] arrivalTimeArr = Utils.ExtractArrivalTime(busInfoJArr.getJSONObject(i));
+            List<Map<String, String>>  arrivalList = Utils.ExtractArrival(busInfoJArr.getJSONObject(i));
+            busInfoItems.add( new BusInfoItem(busNo, arrivalList, busStopCode, busStopMetadata));
         }
     }
 }

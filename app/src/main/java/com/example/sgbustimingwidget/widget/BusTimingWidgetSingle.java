@@ -7,6 +7,8 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -57,9 +59,7 @@ public class BusTimingWidgetSingle extends AppWidgetProvider {
                 for(Map<String, String> row : table){
                     System.out.println(row);
                 }
-
             }
-
         }
     }
 
@@ -95,7 +95,10 @@ public class BusTimingWidgetSingle extends AppWidgetProvider {
 
         views.setTextViewText(R.id.textBusNo, busNo);
         views.setTextViewText(R.id.textBusStopName, busStopMetadata.get("description"));
-
+//
+//        Intent intent_bypass_bgres = new Intent(Settings.ACTION_IGNORE_BACKGROUND_DATA_RESTRICTIONS_SETTINGS, Uri.parse("package:" + context.getPackageName()));
+//        intent_bypass_bgres.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        context.startActivity(intent_bypass_bgres);
 
         Intent reload_intent = new Intent(context, BusTimingWidgetSingle.class);
         reload_intent.setAction(RELOAD_WIDGET);

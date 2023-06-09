@@ -10,9 +10,13 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 public class Utils {
@@ -36,6 +40,52 @@ public class Utils {
 
         return arrivalTimeArr;
     }
+
+    public static List<Map<String, String>> ExtractArrival(JSONObject busServiceJo) throws JSONException, ParseException {
+        List<Map<String, String>> ExtractArrival = new ArrayList<Map<String, String>>();
+
+        if(busServiceJo == null){
+            for(int i=0; i <3; i++){
+                Map<String, String> nextBusMap  = new HashMap<String, String >();
+                nextBusMap.put("estimatedArrivalMin", "");
+                nextBusMap.put("capacity", "");
+                nextBusMap.put("type", "");
+                ExtractArrival.add(nextBusMap);
+            }
+            return ExtractArrival;
+        }
+
+        TimeZone sg_tz = TimeZone.getTimeZone("GMT+08:00");
+        Long currentTime = Calendar.getInstance(sg_tz).getTime().getTime();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'+08:00'");
+        format.setTimeZone(sg_tz);
+
+        JSONObject nextBus =  busServiceJo.getJSONObject("NextBus");
+        JSONObject nextBus2 =  busServiceJo.getJSONObject("NextBus2");
+        JSONObject nextBus3 =  busServiceJo.getJSONObject("NextBus3");
+
+        Map<String, String> nextBusMap  = new HashMap<String, String >();
+        nextBusMap.put("estimatedArrivalMin", FormatTimeDiff(format, nextBus.getString("EstimatedArrival"), currentTime));
+        nextBusMap.put("capacity", nextBus.getString("Load"));
+        nextBusMap.put("type", nextBus.getString("Type"));
+        ExtractArrival.add(nextBusMap);
+
+        Map<String, String> nextBusMap2  = new HashMap<String, String >();
+        nextBusMap2.put("estimatedArrivalMin", FormatTimeDiff(format, nextBus2.getString("EstimatedArrival"), currentTime));
+        nextBusMap2.put("capacity", nextBus2.getString("Load"));
+        nextBusMap2.put("type", nextBus2.getString("Type"));
+        ExtractArrival.add(nextBusMap2);
+
+        Map<String, String> nextBusMap3  = new HashMap<String, String >();
+        nextBusMap3.put("estimatedArrivalMin", FormatTimeDiff(format, nextBus3.getString("EstimatedArrival"), currentTime));
+        nextBusMap3.put("capacity", nextBus3.getString("Load"));
+        nextBusMap3.put("type", nextBus3.getString("Type"));
+        ExtractArrival.add(nextBusMap3);
+
+        return ExtractArrival;
+    }
+
+
 
     public static String GetCurrentSgtTime(String format_str){
         if (format_str == null){
