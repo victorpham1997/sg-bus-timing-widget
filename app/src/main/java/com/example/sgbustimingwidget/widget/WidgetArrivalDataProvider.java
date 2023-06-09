@@ -74,9 +74,7 @@ public class WidgetArrivalDataProvider implements RemoteViewsService.RemoteViews
                 return views;
             }
 
-
-
-
+            views.setTextViewText(R.id.textBusArrivalSecondary, savedArrivalItems.get(position).getArrivalTimeSecondaryStr(narrow));
 
         }else{
             narrow = false;
@@ -100,7 +98,7 @@ public class WidgetArrivalDataProvider implements RemoteViewsService.RemoteViews
                 views.setInt(R.id.iconBusStatus2, "setColorFilter", context.getResources().getColor(getBusIconColor(savedArrivalItems.get(position).getArrivalList().get(1).get("capacity"))));
                 views.setImageViewResource(R.id.iconBusStatus2, getBusIcon(savedArrivalItems.get(position).getArrivalList().get(1).get("type")));
             }else{
-                views.setViewVisibility(R.id.layoutNextBus2, View.GONE);
+                views.setViewVisibility(R.id.layoutNextBus2, View.INVISIBLE);
             }
 
             if(!savedArrivalItems.get(position).getArrivalList().get(2).get("estimatedArrivalMin").equals("")){
@@ -109,7 +107,7 @@ public class WidgetArrivalDataProvider implements RemoteViewsService.RemoteViews
                 views.setInt(R.id.iconBusStatus3, "setColorFilter", context.getResources().getColor(getBusIconColor(savedArrivalItems.get(position).getArrivalList().get(2).get("capacity"))));
                 views.setImageViewResource(R.id.iconBusStatus3, getBusIcon(savedArrivalItems.get(position).getArrivalList().get(2).get("type")));
             }else{
-                views.setViewVisibility(R.id.layoutNextBus3, View.GONE);
+                views.setViewVisibility(R.id.layoutNextBus3, View.INVISIBLE);
             }
         }
 
@@ -117,7 +115,11 @@ public class WidgetArrivalDataProvider implements RemoteViewsService.RemoteViews
         views.setTextViewText(R.id.textBusNo, savedArrivalItems.get(position).getBusNo());
         views.setInt(R.id.layoutNextBus, "setBackgroundColor", context.getResources().getColor(getLayoutColor(savedArrivalItems.get(position).getArrivalList().get(0).get("estimatedArrivalMin"))));
 
-        views.setTextViewText(R.id.textBusArrivalPrimary, savedArrivalItems.get(position).getArrivalList().get(0).get("estimatedArrivalMin"));
+        String primaryArrivalTime = savedArrivalItems.get(position).getArrivalList().get(0).get("estimatedArrivalMin") ;
+        if(primaryArrivalTime.equals("")){
+            primaryArrivalTime = "N/A";
+        }
+        views.setTextViewText(R.id.textBusArrivalPrimary, primaryArrivalTime);
         setBusIconColorPrimary(savedArrivalItems.get(position).getArrivalList().get(0).get("capacity"), views);
         setPrimaryBusIcon(savedArrivalItems.get(position).getArrivalList().get(0).get("type"), views);
 
@@ -159,7 +161,7 @@ public class WidgetArrivalDataProvider implements RemoteViewsService.RemoteViews
 
     public void setPrimaryBusIcon(String primaryBusType, RemoteViews rv) {
         Integer busIcon;
-        if(primaryBusType == null){
+        if(primaryBusType == ""){
             rv.setViewVisibility(R.id.iconBusStatus, View.GONE);
             rv.setViewVisibility(R.id.textPrimaryMin, View.GONE);
             return;
@@ -187,7 +189,7 @@ public class WidgetArrivalDataProvider implements RemoteViewsService.RemoteViews
 
     public void setBusIconColorPrimary(String primaryBusCapacity, RemoteViews rv) {
         Integer busIconColor;
-        if( primaryBusCapacity == null){
+        if( primaryBusCapacity == ""){
             rv.setViewVisibility(R.id.iconBusStatus, View.GONE);
             rv.setViewVisibility(R.id.textPrimaryMin, View.GONE);
             return;

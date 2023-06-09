@@ -185,7 +185,7 @@ public class NetworkEngine {
         String busStopCode = respJo.getString("BusStopCode");
         Map<String, String> busStopMetadata = dbHandler.FindBusStop(busStopCode)[0];
         if(busInfoJArr.length() == 0){
-            busInfoItems.add( new BusInfoItem(bus_no, null, busStopCode, busStopMetadata));
+            busInfoItems.add( new BusInfoItem(bus_no, new ArrayList<Map<String, String>>(0) , busStopCode, busStopMetadata));
             return;
         }
         for(int i = 0; i < busInfoJArr.length(); i++){

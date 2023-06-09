@@ -50,7 +50,7 @@ public class BusInfoItem {
     public String getArrivalTimeStr(){
         String out = "";
         System.out.println(arrivalList);
-        for(int i=0; i <3; i++){
+        for(int i=0; i <arrivalList.size(); i++){
             if(!arrivalList.get(i).get("estimatedArrivalMin").equals("")){
                 out += arrivalList.get(i).get("estimatedArrivalMin") + ", ";
             }
@@ -70,19 +70,15 @@ public class BusInfoItem {
     }
 
     public String getArrivalTimeSecondaryStr(Boolean narrow){
-        if(arrivalTimeArr.length == 0){
-            return "not available";
-        }else if(arrivalTimeArr[1] == ""){
-            return "";
-        }
         String out = "";
-        if(!narrow){
-            out+="and in ";
-        }
-        for(int i=1; i <3; i++){
-            if(arrivalTimeArr[i] != "" ){
-                out += arrivalTimeArr[i] + ", ";
+        System.out.println(arrivalList);
+        for(int i=1; i <arrivalList.size(); i++){
+            if(!arrivalList.get(i).get("estimatedArrivalMin").equals("")){
+                out += arrivalList.get(i).get("estimatedArrivalMin") + ", ";
             }
+        }
+        if(out.equals("")){
+            return "";
         }
         out = out.trim().replaceAll(",$", "") + " min";
         return out;

@@ -81,7 +81,7 @@ public class SearchFragment extends Fragment {
         layoutBusStopInfo = (LinearLayout) view.findViewById(R.id.layoutBusStopInfo);
 
 
-                buttonSearch.setOnClickListener(new View.OnClickListener() {
+        buttonSearch.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (dbHandler.FindBusStop(editBusStopCode.getText().toString()).length < 1){
                     Toast.makeText(getActivity(),"Unable to find any result for " + editBusStopCode.getText().toString(),Toast.LENGTH_LONG).show();
