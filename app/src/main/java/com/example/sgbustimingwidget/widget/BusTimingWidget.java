@@ -217,8 +217,14 @@ public class BusTimingWidget extends AppWidgetProvider {
                             savedArrivalItems.add(busInfoItem);
 
                             if(savedArrivalItems.size() ==arrivalTable.length){
+
+                                for(int i = 0; i < savedArrivalItems.size(); i++){
+                                    System.out.println(savedArrivalItems.get(i).getBusStopName());
+                                }
                                 Collections.sort(savedArrivalItems, new Comparator<BusInfoItem>(){
                                     public int compare(BusInfoItem b1, BusInfoItem b2){
+                                        System.out.println(b1);
+                                        System.out.println(b2);
                                         return b1.getBusStopName().compareTo(b2.getBusStopName())*10 + b1.getBusNo().compareTo(b2.getBusNo()) ;
                                     }
                                 });

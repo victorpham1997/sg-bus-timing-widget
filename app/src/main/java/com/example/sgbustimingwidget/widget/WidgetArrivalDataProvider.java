@@ -32,7 +32,7 @@ public class WidgetArrivalDataProvider implements RemoteViewsService.RemoteViews
 
     @Override
     public void onDataSetChanged() {
-        savedArrivalItems = BusTimingWidget.savedArrivalItems;
+        savedArrivalItems = (ArrayList<BusInfoItem>) BusTimingWidget.savedArrivalItems.clone();
     }
 
     @Override
