@@ -24,6 +24,9 @@ import java.util.Map;
 public class ProfileFragment extends Fragment {
 
 
+    public ProfileFragment() {
+
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

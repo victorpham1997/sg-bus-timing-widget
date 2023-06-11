@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
@@ -31,6 +32,10 @@ import java.util.Map;
 
 public class SearchFragment extends Fragment {
 
+    public static String BUNDLE_BUS_STOP_NAME = "BUNDLE_BUS_STOP_NAME";
+    public static String BUNDLE_BUS_STOP_CODE = "BUNDLE_BUS_STOP_CODE";
+    public static String BUNDLE_BUS_STOP_ST = "BUNDLE_BUS_STOP_ST";
+
     private DBHandler dbHandler;
     private NetworkEngine networkEngine;
 
@@ -51,10 +56,23 @@ public class SearchFragment extends Fragment {
 
     private Map<String,String> searchedBusStop;
 
+    private Bundle pausedBundle;
+
+    public SearchFragment() {
+
+    }
     public SearchFragment(DBHandler dbHandler, NetworkEngine networkEngine) {
         // Required empty public constructor
         this.dbHandler = dbHandler;
         this.networkEngine = networkEngine;
+    }
+
+    public ArrayList<BusInfoItem> getBusInfoItems() {
+        return busInfoItems;
+    }
+
+    public BusInfoAdapter getBusInfoAdapter() {
+        return busInfoAdapter;
     }
 
     @Override
@@ -66,6 +84,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         listBusInfo = (ListView) view.findViewById(R.id.listBusInfo);
 //        apiCallback.setListView(listBusInfo);
@@ -79,6 +98,8 @@ public class SearchFragment extends Fragment {
         textBusStopName = (TextView) view.findViewById(R.id.textBusStopName);
         textStreetName = (TextView) view.findViewById(R.id.textStreetName);
         layoutBusStopInfo = (LinearLayout) view.findViewById(R.id.layoutBusStopInfo);
+
+
 
 
         buttonSearch.setOnClickListener(new View.OnClickListener() {
@@ -152,5 +173,37 @@ public class SearchFragment extends Fragment {
             }
         });
     return view;
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        System.out.println("ONPAUSE-------------------------");
+        if(layoutBusStopInfo.getVisibility()==View.VISIBLE){
+            System.out.println("SAVING-------------------------");
+            pausedBundle = new Bundle();
+            pausedBundle.putString(BUNDLE_BUS_STOP_NAME, textBusStopName.getText().toString());
+            pausedBundle.putString(BUNDLE_BUS_STOP_ST, textStreetName.getText().toString());
+            pausedBundle.putString(BUNDLE_BUS_STOP_CODE, textBusStopCode.getText().toString());
+            System.out.println(pausedBundle.getString(BUNDLE_BUS_STOP_CODE));
+
+        }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        System.out.println("ONRESUME-------------------------");
+
+        if(pausedBundle !=  null){
+            System.out.println("NOTNULLLRESUME-------------------------");
+            System.out.println(pausedBundle.getString(BUNDLE_BUS_STOP_CODE));
+            textBusStopCode.setText(pausedBundle.getString(BUNDLE_BUS_STOP_CODE));
+            textBusStopName.setText(pausedBundle.getString(BUNDLE_BUS_STOP_NAME));
+            textStreetName.setText(pausedBundle.getString(BUNDLE_BUS_STOP_ST));
+            layoutBusStopInfo.setVisibility(View.VISIBLE);
+            listBusInfo.setAdapter(busInfoAdapter);
+            busInfoAdapter.notifyDataSetChanged();
+        }
     }
 }

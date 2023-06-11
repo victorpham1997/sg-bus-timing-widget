@@ -11,4 +11,5 @@
     <string name="add_widget">Add widget</string>
 
     <string name="no_data_prompt">No Saved Bus Arrival found.\nPlease select arrivals to save in the main App.</string>
+    <string name="err_data_prompt">There is a problem loading the data.\n please refresh or recreate the widget.</string>
 </resources>

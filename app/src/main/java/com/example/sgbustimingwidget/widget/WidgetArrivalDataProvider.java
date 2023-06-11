@@ -10,6 +10,8 @@ import android.widget.RemoteViewsService;
 import com.example.sgbustimingwidget.R;
 import com.example.sgbustimingwidget.adapter.BusInfoItem;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 public class WidgetArrivalDataProvider implements RemoteViewsService.RemoteViewsFactory {
@@ -32,7 +34,15 @@ public class WidgetArrivalDataProvider implements RemoteViewsService.RemoteViews
 
     @Override
     public void onDataSetChanged() {
-        savedArrivalItems = (ArrayList<BusInfoItem>) BusTimingWidget.savedArrivalItems.clone();
+        if(BusTimingWidget.savedArrivalItems == null){
+            try {
+                savedArrivalItems = BusTimingWidget.getErrorArrivalItems();
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }else{
+            savedArrivalItems = (ArrayList<BusInfoItem>) BusTimingWidget.savedArrivalItems.clone();
+        }
     }
 
     @Override
@@ -67,6 +77,16 @@ public class WidgetArrivalDataProvider implements RemoteViewsService.RemoteViews
             if(savedArrivalItems.get(position).getBusNo().equals("NODATA")){
                 System.out.println("No data detected");
                 views.setTextViewText(R.id.textBusNo, context.getString(R.string.no_data_prompt));
+                views.setFloat(R.id.textBusNo, "setTextSize", 15);
+                views.setInt(R.id.textBusNo, "setGravity", Gravity.CENTER);
+                views.setViewPadding(R.id.textBusNo, 0, 50, 0, 50);
+                views.setViewVisibility(R.id.layoutRight, View.GONE);
+                return views;
+            }
+
+            if(savedArrivalItems.get(position).getBusNo().equals("ERR")){
+                System.out.println("Error");
+                views.setTextViewText(R.id.textBusNo, context.getString(R.string.err_data_prompt));
                 views.setFloat(R.id.textBusNo, "setTextSize", 15);
                 views.setInt(R.id.textBusNo, "setGravity", Gravity.CENTER);
                 views.setViewPadding(R.id.textBusNo, 0, 50, 0, 50);

@@ -43,8 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     private MaterialToolbar toolbar;
-
-
+    private SearchFragment searchFragment;
     private DBHandler dbHandler;
     private NetworkEngine networkEngine;
 
@@ -54,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
 
         System.out.println("Oh call me maybe");
-
 
         // Define bus stop metatdata DB
         dbHandler = new DBHandler(MainActivity.this);
@@ -108,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        searchFragment = new SearchFragment(dbHandler, networkEngine);
 
         bottomNavigationView =  findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setItemIconTintList(null);
@@ -115,7 +114,17 @@ public class MainActivity extends AppCompatActivity {
             Fragment selectedFragment = null;
             int itemId = item.getItemId();
             if (itemId == R.id.search_page) {
-                selectedFragment = new SearchFragment(dbHandler, networkEngine);
+//                System.out.println("SIUZETE");
+//                if(searchFragment.getBusInfoItems() != null){
+//                    System.out.println(searchFragment.getBusInfoItems().size());
+//                }
+                if(searchFragment == null){
+                    searchFragment = new SearchFragment(dbHandler, networkEngine);
+                }
+                selectedFragment = searchFragment;
+//                if(searchFragment.getBusInfoAdapter() != null){
+//                    searchFragment.getBusInfoAdapter().notifyDataSetChanged();
+//                }
             }
             else if (itemId == R.id.saved_page) {
                 selectedFragment = new SavedFragment(dbHandler, networkEngine);

@@ -152,6 +152,13 @@ public class BusTimingWidget extends AppWidgetProvider {
         }
     }
 
+    public static ArrayList<BusInfoItem> getErrorArrivalItems() throws JSONException {
+        ArrayList<BusInfoItem> errorArrivalItems = new ArrayList<BusInfoItem>();
+        BusInfoItem busInfoItem = new BusInfoItem("ERR", null, null, null);
+        errorArrivalItems.add(busInfoItem);
+        return errorArrivalItems;
+    }
+
     public void UpdateSavedArrivalItems(Context context){
         savedArrivalItems = new ArrayList<BusInfoItem>();
         DBHandler dbHandler = new DBHandler(context);

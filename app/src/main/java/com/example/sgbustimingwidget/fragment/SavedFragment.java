@@ -28,6 +28,9 @@ public class SavedFragment extends Fragment {
     private ArrayList<BusInfoItem> savedArrivalItems;
     private SavedArrivalAdapter savedArrivalAdapter;
 
+    public SavedFragment() {
+
+    }
     public SavedFragment(DBHandler dbHandler,  NetworkEngine networkEngine) {
         // Required empty public constructor
         this.dbHandler = dbHandler;

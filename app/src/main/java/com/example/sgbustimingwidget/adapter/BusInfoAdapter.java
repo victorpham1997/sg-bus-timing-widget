@@ -40,7 +40,6 @@ public class BusInfoAdapter extends ArrayAdapter<BusInfoItem> {
 
         Boolean saveStatus = this.dbHandler.checkSavedBusArrival(busStopCode, busNo);
 
-
         if (currentItemView == null) {
             currentItemView = LayoutInflater.from(getContext()).inflate(R.layout.item_bus_info, parent, false);
         }
