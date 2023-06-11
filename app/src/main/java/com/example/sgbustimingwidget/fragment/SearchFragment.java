@@ -1,5 +1,6 @@
 package com.example.sgbustimingwidget.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,11 +21,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sgbustimingwidget.MainActivity;
 import com.example.sgbustimingwidget.R;
 import com.example.sgbustimingwidget.adapter.BusInfoAdapter;
 import com.example.sgbustimingwidget.adapter.BusInfoItem;
 import com.example.sgbustimingwidget.database.DBHandler;
 import com.example.sgbustimingwidget.network.NetworkEngine;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -35,6 +38,8 @@ public class SearchFragment extends Fragment {
     public static String BUNDLE_BUS_STOP_NAME = "BUNDLE_BUS_STOP_NAME";
     public static String BUNDLE_BUS_STOP_CODE = "BUNDLE_BUS_STOP_CODE";
     public static String BUNDLE_BUS_STOP_ST = "BUNDLE_BUS_STOP_ST";
+    public static String BUNDLE_PRE_BUS_STOP_NAME = "BUNDLE_PRE_BUS_STOP_NAME";
+    public static String BUNDLE_PRE_BUS_NO = "BUNDLE_PRE_BUS_NO";
 
     private DBHandler dbHandler;
     private NetworkEngine networkEngine;
@@ -67,6 +72,8 @@ public class SearchFragment extends Fragment {
         this.networkEngine = networkEngine;
     }
 
+
+
     public ArrayList<BusInfoItem> getBusInfoItems() {
         return busInfoItems;
     }
@@ -84,6 +91,9 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+        BottomNavigationView navigation = ((MainActivity)getActivity()).getBottomNavigationView();
+        navigation.getMenu().findItem(R.id.search_page).setChecked(true);
 
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         listBusInfo = (ListView) view.findViewById(R.id.listBusInfo);
@@ -172,7 +182,19 @@ public class SearchFragment extends Fragment {
                 return false;
             }
         });
-    return view;
+
+
+//        if(!getArguments().getString(BUNDLE_PRE_BUS_STOP_NAME, "").equals("")){
+        if(getArguments() != null){
+            if(!getArguments().getString(BUNDLE_PRE_BUS_STOP_NAME, "").equals("")){
+                editBusStopCode.setText(getArguments().getString(BUNDLE_PRE_BUS_STOP_NAME, ""));
+                editBusNo.setText(getArguments().getString(BUNDLE_PRE_BUS_NO, ""));
+                buttonSearch.performClick();
+
+            }
+        }
+
+        return view;
     }
 
 

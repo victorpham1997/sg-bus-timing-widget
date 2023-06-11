@@ -47,6 +47,21 @@ public class MainActivity extends AppCompatActivity {
     private DBHandler dbHandler;
     private NetworkEngine networkEngine;
 
+    public BottomNavigationView getBottomNavigationView(){
+        return bottomNavigationView;
+    }
+
+    public void displaySearchFragmentResult(String busStopName, String busNo){
+        if(searchFragment == null){
+            searchFragment = new SearchFragment(dbHandler, networkEngine);
+        }
+        Bundle args = new Bundle();
+        args.putString(SearchFragment.BUNDLE_PRE_BUS_STOP_NAME, busStopName );
+        args.putString(SearchFragment.BUNDLE_PRE_BUS_NO, busNo);
+        searchFragment.setArguments(args);
+        getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, searchFragment).commit();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
+
+
 
 
         // Set fragment
