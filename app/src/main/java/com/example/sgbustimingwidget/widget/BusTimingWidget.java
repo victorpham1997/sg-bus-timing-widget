@@ -228,13 +228,13 @@ public class BusTimingWidget extends AppWidgetProvider {
                                 for(int i = 0; i < savedArrivalItems.size(); i++){
                                     System.out.println(savedArrivalItems.get(i).getBusStopName());
                                 }
-                                Collections.sort(savedArrivalItems, new Comparator<BusInfoItem>(){
-                                    public int compare(BusInfoItem b1, BusInfoItem b2){
-                                        System.out.println(b1);
-                                        System.out.println(b2);
-                                        return b1.getBusStopName().compareTo(b2.getBusStopName())*10 + b1.getBusNo().compareTo(b2.getBusNo()) ;
-                                    }
-                                });
+//                                Collections.sort(savedArrivalItems, new Comparator<BusInfoItem>(){
+//                                    public int compare(BusInfoItem b1, BusInfoItem b2){
+//                                        System.out.println(b1);
+//                                        System.out.println(b2);
+//                                        return b1.getBusStopName().compareTo(b2.getBusStopName())*10 + b1.getBusNo().compareTo(b2.getBusNo()) ;
+//                                    }
+//                                });
                                 System.out.println("Completed loading widget data");
                                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
                                 int appWidgetIds[] = appWidgetManager.getAppWidgetIds(new ComponentName(context, BusTimingWidget.class));
@@ -255,6 +255,7 @@ public class BusTimingWidget extends AppWidgetProvider {
                         }
                     }
                 };
+                System.out.println("__________PAGING FOR " + arrivalTable[i].get("code") + "---"+ arrivalTable[i].get("busno"));
                 networkEngine.GetBusArrival(arrivalTable[i].get("code"), arrivalTable[i].get("busno"), apiCallback );
             }
         }

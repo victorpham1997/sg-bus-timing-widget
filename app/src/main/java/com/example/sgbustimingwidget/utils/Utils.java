@@ -2,7 +2,9 @@ package com.example.sgbustimingwidget.utils;
 
 import android.content.SharedPreferences;
 
+import com.example.sgbustimingwidget.adapter.BusInfoItem;
 import com.example.sgbustimingwidget.database.DBHandler;
+import com.example.sgbustimingwidget.widget.BusTimingWidget;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,6 +22,24 @@ import java.util.Map;
 import java.util.TimeZone;
 
 public class Utils {
+
+    public static ArrayList<BusInfoItem> removeBusInfoListDup( ArrayList<BusInfoItem> input){
+        ArrayList<BusInfoItem> output = new ArrayList<BusInfoItem>();
+
+        for (BusInfoItem all : input) {
+            boolean isFound = false;
+            for (BusInfoItem out : output){
+                if (out.getBusStopName().equals(all.getBusStopName()) && out.getBusNo().equals(all.getBusNo())) {
+                    isFound = true;
+                    break;
+                }
+            }
+            if (!isFound) output.add(all);
+        }
+
+        // return the new list
+        return output;
+    }
 
     public static int getCellsForSize(int size) {
         int n = 2;

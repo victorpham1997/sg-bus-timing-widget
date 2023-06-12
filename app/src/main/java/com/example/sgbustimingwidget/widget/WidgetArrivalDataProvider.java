@@ -9,10 +9,13 @@ import android.widget.RemoteViewsService;
 
 import com.example.sgbustimingwidget.R;
 import com.example.sgbustimingwidget.adapter.BusInfoItem;
+import com.example.sgbustimingwidget.utils.Utils;
 
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class WidgetArrivalDataProvider implements RemoteViewsService.RemoteViewsFactory {
 
@@ -42,6 +45,14 @@ public class WidgetArrivalDataProvider implements RemoteViewsService.RemoteViews
             }
         }else{
             savedArrivalItems = (ArrayList<BusInfoItem>) BusTimingWidget.savedArrivalItems.clone();
+            savedArrivalItems = Utils.removeBusInfoListDup(savedArrivalItems);
+            Collections.sort(savedArrivalItems, new Comparator<BusInfoItem>(){
+                public int compare(BusInfoItem b1, BusInfoItem b2){
+                    System.out.println(b1);
+                    System.out.println(b2);
+                    return b1.getBusStopName().compareTo(b2.getBusStopName())*10 + b1.getBusNo().compareTo(b2.getBusNo()) ;
+                }
+            });
         }
     }
 
@@ -52,13 +63,14 @@ public class WidgetArrivalDataProvider implements RemoteViewsService.RemoteViews
 
     @Override
     public int getCount() {
+        System.out.println("SIZE OF ARR" + savedArrivalItems.size());
         return savedArrivalItems.size();
     }
 
     @Override
     public RemoteViews getViewAt(int position) {
 
-        System.out.println("WORKIUDBNG MY ASS FOFF");
+        System.out.println("WORKIUDBNG MY ASS FOFF" + position);
 
         widgetWidthCell = Integer.valueOf(intent.getData().getSchemeSpecificPart());
 
@@ -123,7 +135,7 @@ public class WidgetArrivalDataProvider implements RemoteViewsService.RemoteViews
             }
 
             if(!savedArrivalItems.get(position).getArrivalList().get(2).get("estimatedArrivalMin").equals("")){
-                views.setViewVisibility(R.id.layoutNextBus2, View.VISIBLE);
+                views.setViewVisibility(R.id.layoutNextBus3, View.VISIBLE);
                 views.setInt(R.id.layoutNextBus3, "setBackgroundColor", context.getResources().getColor(getLayoutColor(savedArrivalItems.get(position).getArrivalList().get(2).get("estimatedArrivalMin"))));
                 views.setTextViewText(R.id.textBusArrival3, savedArrivalItems.get(position).getArrivalList().get(2).get("estimatedArrivalMin"));
                 views.setInt(R.id.iconBusStatus3, "setColorFilter", context.getResources().getColor(getBusIconColor(savedArrivalItems.get(position).getArrivalList().get(2).get("capacity"))));
