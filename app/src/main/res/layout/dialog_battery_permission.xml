@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:orientation="horizontal"
+    android:background="@drawable/app_dialog_background"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:textColor="@color/app_on_neutral_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:textSize="25dp"
+            android:text="Allow Unrestricted Battery Usage"/>
+
+
+        <TextView
+            android:textColor="@color/app_on_neutral_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:textSize="15dp"
+            android:text="The widget requires 'Unrestricted Battery' for best performance. Please allow this in the application setting:"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="370dp"
+                android:layout_weight="1"
+                android:padding="2dp"
+                android:src="@drawable/dialog_battery_guide_1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="370dp"
+                android:layout_weight="1"
+                android:padding="2dp"
+                android:src="@drawable/dialog_battery_guide_2" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="2.6"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonDecline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="20dp"
+                android:text="Decline"/>
+
+            <Button
+                android:id="@+id/buttonAllow"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Allow"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

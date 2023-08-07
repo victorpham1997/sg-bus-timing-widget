@@ -11,6 +11,6 @@
     android:targetCellWidth="2"
     android:targetCellHeight="1"
     android:updatePeriodMillis="3600000"
-    android:configure="com.example.sgbustimingwidget.ArrivalSelectionActivity"
+    android:configure="com.xsteinlab.sgbustimingwidget.ArrivalSelectionActivity"
     android:widgetFeatures="reconfigurable"
     android:widgetCategory="home_screen" />
