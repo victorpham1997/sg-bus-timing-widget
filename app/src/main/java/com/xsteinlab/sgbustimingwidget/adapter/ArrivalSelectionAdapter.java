@@ -2,8 +2,10 @@ package com.xsteinlab.sgbustimingwidget.adapter;
 
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -78,9 +80,9 @@ public class ArrivalSelectionAdapter extends ArrayAdapter<BusInfoItem> {
                 textViewBusStopCode.setText(busStopCode);
             }
 
-            if (widgetId != null && !widgetId.equals("")){
-                buttonSelect.setEnabled(false);
-            }
+//            if (widgetId != null && !widgetId.equals("")){
+//                buttonSelect.setEnabled(false);
+//            }
 
             buttonSelect.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -97,8 +99,20 @@ public class ArrivalSelectionAdapter extends ArrayAdapter<BusInfoItem> {
 
 
                     DBHandler dbHandler = new DBHandler(context);
-                    dbHandler.WriteDataToTable(DBHandler.SAVED_BUS_ARV_TABLE, "widgetid=''", "widgetid='"+String.valueOf(appWidgetId)+"'");
-                    dbHandler.WriteDataToTable(DBHandler.SAVED_BUS_ARV_TABLE, "widgetid="+String.valueOf(appWidgetId), String.format("code='%s' AND busno='%s'", busStopCode,busNo));
+
+                    SQLiteDatabase db = dbHandler.getWritableDatabase();
+                    ContentValues values = new ContentValues();
+
+                    values.put(dbHandler.WIDGET_ID_COL, appWidgetId);
+                    values.put(dbHandler.CODE_COL, busStopCode);
+                    values.put(dbHandler.BUS_NO_COL, busNo);
+
+                    int id = (int) db.insertWithOnConflict(dbHandler.SINGLE_WID_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+
+                    db.close();
+
+//                    dbHandler.WriteDataToTable(DBHandler.SINGLE_WID_TABLE, DBHandler.WIDGET_ID_COL + "=''", DBHandler.WIDGET_ID_COL + "='"+String.valueOf(appWidgetId)+"'");
+//                    dbHandler.WriteDataToTable(DBHandler.SINGLE_WID_TABLE, DBHandler.WIDGET_ID_COL + "="+String.valueOf(appWidgetId), String.format("code='%s' AND busno='%s'", busStopCode,busNo));
 
                     BusTimingWidgetSingle.updateWidgetSingle(context, dbHandler, busStopCode, busNo, appWidgetId);
 

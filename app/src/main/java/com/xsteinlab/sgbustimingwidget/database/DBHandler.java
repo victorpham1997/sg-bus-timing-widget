@@ -18,9 +18,11 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final String DB_NAME = "sgbuswidgetdb";
 
     // below int is our database version
-    public static final int DB_VERSION = 3;
+    public static final int DB_VERSION = 4;
     public static final String BUS_STOP_TABLE = "busstopmetadata";
     public static final String SAVED_BUS_ARV_TABLE = "savedbusarrival";
+    public static final String SINGLE_WID_TABLE = "singlewidtable";
+
 
     public static final String CODE_COL = "code";
     public static final String ROADNAME_COL = "roadname";
@@ -36,6 +38,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+//      Metadata bus stop tables
         String create_query1 = "CREATE TABLE " + BUS_STOP_TABLE + " ("
                 + CODE_COL + " TEXT PRIMARY KEY,"
                 + ROADNAME_COL + " TEXT,"
@@ -43,6 +46,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + LAT_COL + " TEXT,"
                 + LONG_COL + " TEXT)";
 
+//      Saved arrival bus arrival tables
         String create_query2 = "CREATE TABLE " + SAVED_BUS_ARV_TABLE + " ("
                 + CODE_COL + " TEXT,"
                 + BUS_NO_COL + " TEXT,"
@@ -51,8 +55,15 @@ public class DBHandler extends SQLiteOpenHelper {
                 + CODE_COL + ", "
                 + BUS_NO_COL + "))";
 
+//      Single Widget to Arrival mapping table
+        String create_query3 = "CREATE TABLE " + SINGLE_WID_TABLE + " ("
+                + WIDGET_ID_COL + " TEXT PRIMARY KEY,"
+                + CODE_COL + " TEXT,"
+                + BUS_NO_COL + " TEXT)";
+
         db.execSQL(create_query2);
         db.execSQL(create_query1);
+        db.execSQL(create_query3);
     }
 
     public void addNewBusStopMetadata(String busStopCode, String roadName, String description, String lattitude, String longtitude) {

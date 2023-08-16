@@ -4,8 +4,10 @@ import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -37,7 +39,7 @@ public class BusTimingWidgetSingle extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             DBHandler dbHandler = new DBHandler(context);
 
-            String query = "SELECT * FROM " + DBHandler.SAVED_BUS_ARV_TABLE + " WHERE " + DBHandler.WIDGET_ID_COL + " = '" + String.valueOf(appWidgetId) + "'";
+            String query = "SELECT * FROM " + DBHandler.SINGLE_WID_TABLE+ " WHERE " + DBHandler.WIDGET_ID_COL + " = '" + String.valueOf(appWidgetId) + "'";
             Map<String, String>[] respArr = dbHandler.Query(query);
             if(respArr.length>0){
                 Map<String, String> resp = respArr[0];
@@ -201,7 +203,16 @@ public class BusTimingWidgetSingle extends AppWidgetProvider {
         super.onDeleted(context, appWidgetIds);
         DBHandler dbHandler = new DBHandler(context);
         for(int appWidgetId : appWidgetIds){
-            dbHandler.WriteDataToTable(DBHandler.SAVED_BUS_ARV_TABLE, "widgetid=''", "widgetid='"+String.valueOf(appWidgetId)+"'");
+
+            SQLiteDatabase db = dbHandler.getWritableDatabase();
+
+            String delete_query = "DELETE FROM " + dbHandler.SAVED_BUS_ARV_TABLE + " WHERE "
+                    + dbHandler.WIDGET_ID_COL + " = '" + appWidgetId + "'";
+
+            db.execSQL(delete_query);
+            db.close();
+
+//            dbHandler.WriteDataToTable(DBHandler.SINGLE_WID_TABLE, DBHandler.WIDGET_ID_COL + "=''", DBHandler.WIDGET_ID_COL + "='"+String.valueOf(appWidgetId)+"'");
         }
 
     }
