@@ -42,11 +42,22 @@
             android:text="Save State" />
     </LinearLayout>
 
-    <ListView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_marginHorizontal="7dp"
-        android:id="@+id/listSavedArrival"
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_below="@+id/layoutHeader"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/layoutHeader" />
+        tools:context=".MainActivity">
+
+        <ListView
+            android:id="@+id/listSavedArrival"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 </RelativeLayout>

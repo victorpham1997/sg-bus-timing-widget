@@ -34,6 +34,9 @@ public class BusTimingWidget extends AppWidgetProvider {
 
     public static String INTENT_RELOAD_WIDGET = "INTENT_RELOAD_WIDGET";
     public static String INTENT_UPDATE_REFRESH_DATE = "INTENT_UPDATE_REFRESH_DATE";
+    public static String INTENT_START_UPDATE = "INTENT_START_UPDATE";
+
+
     public static String EXTRA_FRAGMENT_STRING = "EXTRA_FRAGMENT_STRING";
     public static String EXTRA_DATE_STRING = "EXTRA_DATE_STRING";
 
@@ -105,7 +108,6 @@ public class BusTimingWidget extends AppWidgetProvider {
         if (INTENT_UPDATE_REFRESH_DATE.equals(action)){
             Utils.localLogging("Updating BusTimingWidget refresh date");
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-
 
             Bundle extras = intent.getExtras();
             if(extras != null) {
@@ -200,6 +202,17 @@ public class BusTimingWidget extends AppWidgetProvider {
         NetworkEngine networkEngine = new NetworkEngine(context, dbHandler);
         Map<String, String>[] arrivalTable = dbHandler.GetTable(DBHandler.SAVED_BUS_ARV_TABLE);
 
+        Intent startUpdateIntent = new Intent(context, BusTimingWidget.class);
+        startUpdateIntent.setAction(INTENT_UPDATE_REFRESH_DATE);
+        String refreshStr = "Refreshing . . .";
+        startUpdateIntent.putExtra(EXTRA_DATE_STRING, refreshStr);
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        int appWidgetIds[] = appWidgetManager.getAppWidgetIds(new ComponentName(context, BusTimingWidget.class));
+        if(appWidgetIds != null && appWidgetIds.length > 0) {
+            startUpdateIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+            context.sendBroadcast(startUpdateIntent);
+        }
+
 //        Intent intent_bypass_bgres = new Intent(Settings.ACTION_IGNORE_BACKGROUND_DATA_RESTRICTIONS_SETTINGS, Uri.parse("package:" + context.getPackageName()));
 //        intent_bypass_bgres.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        context.startActivity(intent_bypass_bgres);
@@ -208,8 +221,6 @@ public class BusTimingWidget extends AppWidgetProvider {
             try {
                 BusInfoItem busInfoItem = new BusInfoItem("NODATA", null, null, null);
                 savedArrivalItems.add(busInfoItem);
-                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-                int appWidgetIds[] = appWidgetManager.getAppWidgetIds(new ComponentName(context, BusTimingWidget.class));
                 appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_list);
 
                 Intent intent = new Intent(context, BusTimingWidget.class);

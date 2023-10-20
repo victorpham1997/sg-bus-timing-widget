@@ -62,20 +62,33 @@ public class BusInfoAdapter extends ArrayAdapter<BusInfoItem> {
             }
 
             saveButton.setChecked(saveStatus);
-            saveButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            saveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                    if(isChecked){
-                        //toggle is enabled
-                        Utils.localLogging("CHECKED");
-                        dbHandler.addNewSavedBusArrival(busStopCode, busNo);
-                    }else{
-                        //toggle is disabled
-                        Utils.localLogging("UNCHECKED");
+                public void onClick(View view) {
+                    if(saveStatus){
+                        Utils.localLogging("UNCHECKEDD");
                         dbHandler.removeSavedBusArrival(busStopCode, busNo);
+                    }else{
+                        Utils.localLogging("CHECKEDD");
+                        dbHandler.addNewSavedBusArrival(busStopCode, busNo);
                     }
                 }
             });
+//            saveButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+//                    if(isChecked){
+//                        //toggle is enabled
+//                        Utils.localLogging("CHECKEDD");
+//                        dbHandler.addNewSavedBusArrival(busStopCode, busNo);
+//                    }else{
+//                        //toggle is disabled
+//                        Utils.localLogging("UNCHECKEDD");
+//                        dbHandler.removeSavedBusArrival(busStopCode, busNo);
+//                    }
+//                }
+//            });
         }
         return currentItemView;
     }

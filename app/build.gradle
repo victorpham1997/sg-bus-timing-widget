@@ -9,8 +9,8 @@ android {
         applicationId "com.xsteinlab.sgbustimingwidget"
         minSdk 32
         targetSdk 33
-        versionCode 4
-        versionName "1.01"
+        versionCode 6
+        versionName "1.11"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -48,6 +48,7 @@ dependencies {
     implementation("com.tbuonomo:dotsindicator:4.3")
     implementation 'com.google.android.gms:play-services-cronet:18.0.1'
     implementation 'org.chromium.net:cronet-embedded:108.5359.79'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
